@@ -21,13 +21,23 @@ export default defineConfigWithVueTs(
   vueTsConfigs.recommended,
   prettierConfig,
   {
+    // Nuxt convention files that legitimately use single-word names
+    files: ['app/pages/**/*.vue', 'app/layouts/**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
+  {
     rules: {
       // Vue
       'vue/component-name-in-template-casing': ['error', 'PascalCase'],
       'vue/block-order': ['error', { order: ['script', 'template', 'style'] }],
-      'vue/define-macros-order': ['error', {
-        order: ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'],
-      }],
+      'vue/define-macros-order': [
+        'error',
+        {
+          order: ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'],
+        },
+      ],
       'vue/no-unused-vars': 'error',
       'vue/no-v-html': 'warn', // warn not error — intentional v-html for Quill content
 

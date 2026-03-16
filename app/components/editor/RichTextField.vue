@@ -1,5 +1,12 @@
 <!-- components/editor/RichTextField.vue -->
 <script setup lang="ts">
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: '',
+  readOnly: false,
+  toolbar: 'full',
+  minHeight: '200px',
+})
+
 // Dynamic import required — Quill needs the DOM
 const QuillEditor = defineAsyncComponent(() =>
   import('@vueup/vue-quill').then((m) => m.QuillEditor),
@@ -11,13 +18,6 @@ interface Props {
   toolbar?: 'minimal' | 'full'
   minHeight?: string
 }
-
-const props = withDefaults(defineProps<Props>(), {
-  placeholder: '',
-  readOnly: false,
-  toolbar: 'full',
-  minHeight: '200px',
-})
 
 // Native v-model support via defineModel
 const content = defineModel<string>({ default: '' })

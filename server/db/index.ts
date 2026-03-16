@@ -10,8 +10,8 @@ const globalForDb = globalThis as unknown as { db: ReturnType<typeof drizzle> }
 function createDb() {
   const config = useRuntimeConfig()
   const client = postgres(config.databaseUrl as string, {
-    max: 10,           // connection pool size
-    idle_timeout: 30,  // seconds before idle connection is closed
+    max: 10, // connection pool size
+    idle_timeout: 30, // seconds before idle connection is closed
     connect_timeout: 10,
   })
   return drizzle(client, { schema, logger: process.env.NODE_ENV === 'development' })

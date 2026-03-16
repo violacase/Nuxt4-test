@@ -7,8 +7,8 @@ export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   // OAuth identity
-  provider: text('provider').notNull(),         // 'github' | 'google' etc.
-  providerId: text('provider_id').notNull(),     // ID from OAuth provider
+  provider: text('provider').notNull(), // 'github' | 'google' etc.
+  providerId: text('provider_id').notNull(), // ID from OAuth provider
 
   // Profile
   email: text('email').notNull().unique(),

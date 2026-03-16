@@ -29,3 +29,4 @@ Thumbs.db
 
 # Types (auto-generated — do not commit)
 types/gql.ts
+app/types/gql.ts

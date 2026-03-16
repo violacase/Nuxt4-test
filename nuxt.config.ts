@@ -12,13 +12,7 @@ export default defineNuxtConfig({
   },
 
   // ─── Modules ────────────────────────────────────────────────
-  modules: [
-    'shadcn-nuxt',
-    '@pinia/nuxt',
-    '@nuxtjs/i18n',
-    'nuxt-auth-utils',
-    '@vueuse/nuxt',
-  ],
+  modules: ['shadcn-nuxt', '@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-auth-utils', '@vueuse/nuxt'],
 
   // ─── shadcn-vue ─────────────────────────────────────────────
   shadcn: {
@@ -53,7 +47,7 @@ export default defineNuxtConfig({
 
   // ─── Pinia ──────────────────────────────────────────────────
   pinia: {
-    storesDirs: ['app/stores/**'],
+    storesDirs: ['stores/**'],
   },
 
   // ─── Runtime Config ─────────────────────────────────────────

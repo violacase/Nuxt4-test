@@ -1,14 +1,16 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const config: CodegenConfig = {
-  // Point at the running dev server GraphQL schema
-  schema: 'http://localhost:3000/api/graphql',
+// Used in CI — reads the committed schema.graphql instead of a live server.
+// Locally: npm run codegen:ci
+// CI:      see .github/workflows/ci.yml
 
-  // Scan all .graphql operation files in composables/
+const config: CodegenConfig = {
+  schema: './schema.graphql',
+
   documents: ['app/composables/**/*.graphql'],
+  ignoreNoDocuments: true,
 
   generates: {
-    // Single output file — never edit manually
     './app/types/gql.ts': {
       plugins: ['typescript', 'typescript-operations'],
       config: {
@@ -21,12 +23,6 @@ const config: CodegenConfig = {
         },
       },
     },
-  },
-
-  // Watch mode config
-  watch: true,
-  watchConfig: {
-    usePolling: false,
   },
 
   hooks: {

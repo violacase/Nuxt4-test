@@ -6,15 +6,15 @@ const settings = useSettingsStore()
 <template>
   <main class="flex min-h-screen flex-col items-center justify-center gap-6 p-8">
     <div class="flex flex-col items-center gap-2 text-center">
-      <h1 class="font-display text-4xl font-normal text-[--color-text-primary]">
-        Nuxt Scaffold
-      </h1>
+      <h1 class="font-display text-4xl font-normal text-[--color-text-primary]">Nuxt Scaffold</h1>
       <p class="font-sans text-base text-[--color-text-muted]">
         Stack is wired up. Start building.
       </p>
     </div>
 
-    <div class="flex items-center gap-3 rounded-md border border-[--color-border] bg-[--color-surface] px-4 py-3 text-sm text-[--color-text-secondary]">
+    <div
+      class="flex items-center gap-3 rounded-md border border-[--color-border] bg-[--color-surface] px-4 py-3 text-sm text-[--color-text-secondary]"
+    >
       <span class="font-mono text-xs text-[--color-text-muted]">theme</span>
       <span class="font-sans font-medium text-[--color-text-primary]">{{ settings.theme }}</span>
       <button

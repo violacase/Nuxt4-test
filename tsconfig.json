@@ -24,21 +24,26 @@
 
     // ─── Module Resolution ──────────────────────────────────
     "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
-
-    // ─── Paths ──────────────────────────────────────────────
-    "paths": {
-      "~/*": ["./app/*"],
-      "@/*": ["./app/*"],
-      "~~/*": ["./*"],
-      "@@/*": ["./*"]
-    }
+    "verbatimModuleSyntax": true
+    // Paths intentionally omitted — .nuxt/tsconfig.json already defines
+    // ~, @, ~~, @@ and all # module aliases. Overriding here would
+    // drop the # aliases (e.g. #auth-utils) and break type inference.
   },
+  // vue-router@4.6+ no longer exports ./volar/sfc-route-blocks — clear the plugin
+  // list to avoid a vue-tsc warning that breaks type resolution
+  "vueCompilerOptions": {
+    "plugins": []
+  },
+  // .nuxt/nuxt.d.ts must be in "files" (not "include") so that "exclude: ['.nuxt']"
+  // does not suppress it — TypeScript's exclude overrides include, but not files.
+  "files": [
+    ".nuxt/nuxt.d.ts",
+    ".nuxt/nuxt.node.d.ts"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "**/*.vue",
-    ".nuxt/nuxt.d.ts"
+    "**/*.vue"
   ],
   "exclude": [
     "node_modules",
