@@ -1,0 +1,194 @@
+/* ─── Fonts ─────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Tailwind ───────────────────────────────────────────────────────────── */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* ─── Quill ──────────────────────────────────────────────────────────────── */
+@import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+/* ─── Dark Mode Variant ──────────────────────────────────────────────────── */
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Theme ──────────────────────────────────────────────────────────────── */
+/*
+ * @theme inline maps CSS custom properties to Tailwind utility classes.
+ * Colors are referenced via var() so light/dark mode works automatically.
+ * Result: bg-background, text-foreground, border-border, etc. all just work.
+ */
+@theme inline {
+  /* Fonts — overrides Tailwind defaults */
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Radius — overrides Tailwind defaults */
+  --radius-sm: 0.25rem;  /* 4px — badges, inputs */
+  --radius-md: 0.5rem;   /* 8px — buttons, cards */
+  --radius-lg: 0.75rem;  /* 12px — modals */
+  --radius-xl: 1rem;     /* 16px — panels */
+
+  /* shadcn semantic colors */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input:  var(--input);
+  --color-ring:   var(--ring);
+
+  /* Custom semantic colors (extend shadcn with project-specific tokens) */
+  --color-success:        var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning:        var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-danger-subtle:  var(--danger-subtle);
+}
+
+/* ─── Design Tokens — Light Mode ─────────────────────────────────────────── */
+/*
+ * Warm stone palette expressed in OKLCH.
+ * shadcn token naming: --background / --foreground / --primary / etc.
+ * --primary is the interactive action color (blue) — NOT the text color.
+ * Text color = --foreground.
+ */
+:root {
+  /* shadcn structural tokens */
+  --background:         oklch(0.989 0.003 75);   /* #FAFAF9 — page */
+  --foreground:         oklch(0.157 0.008 75);   /* #1C1917 — primary text */
+
+  --card:               oklch(1 0 0);             /* #FFFFFF — raised surfaces */
+  --card-foreground:    oklch(0.157 0.008 75);
+
+  --popover:            oklch(1 0 0);
+  --popover-foreground: oklch(0.157 0.008 75);
+
+  --primary:            oklch(0.546 0.245 264);  /* #2563EB — action blue */
+  --primary-foreground: oklch(0.985 0 0);        /* white text on primary */
+
+  --secondary:          oklch(0.947 0.004 75);   /* subtle hover bg */
+  --secondary-foreground: oklch(0.157 0.008 75);
+
+  --muted:              oklch(0.947 0.004 75);   /* muted area bg */
+  --muted-foreground:   oklch(0.645 0.010 75);   /* #9C9890 — placeholder, meta */
+
+  --accent:             oklch(0.947 0.004 75);   /* hover bg for accent items */
+  --accent-foreground:  oklch(0.157 0.008 75);
+
+  --destructive:            oklch(0.577 0.245 27);  /* #DC2626 */
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.912 0.006 75);   /* #E5E3DF */
+  --input:  oklch(0.912 0.006 75);
+  --ring:   oklch(0.546 0.245 264);  /* focus ring = primary blue */
+
+  /* Custom semantic — not in shadcn core */
+  --success:        oklch(0.609 0.164 154);  /* #16A34A */
+  --success-subtle: oklch(0.982 0.027 149);  /* #F0FDF4 */
+  --warning:        oklch(0.681 0.159 75);   /* #D97706 */
+  --warning-subtle: oklch(0.993 0.019 89);   /* #FFFBEB */
+  --danger-subtle:  oklch(0.994 0.016 18);   /* #FEF2F2 */
+
+  /* Motion tokens */
+  --duration-instant:    75ms;
+  --duration-fast:       150ms;
+  --duration-base:       200ms;
+  --duration-slow:       300ms;
+  --duration-deliberate: 500ms;
+  --ease-default: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ─── Design Tokens — Dark Mode ──────────────────────────────────────────── */
+.dark {
+  --background:         oklch(0.098 0.003 75);   /* #111110 */
+  --foreground:         oklch(0.968 0.003 75);   /* #F5F4F2 */
+
+  --card:               oklch(0.157 0.005 75);   /* #1C1B1A */
+  --card-foreground:    oklch(0.968 0.003 75);
+
+  --popover:            oklch(0.218 0.005 75);
+  --popover-foreground: oklch(0.968 0.003 75);
+
+  --primary:            oklch(0.623 0.214 258);  /* #3B82F6 — lighter in dark */
+  --primary-foreground: oklch(0.157 0.008 75);
+
+  --secondary:          oklch(0.218 0.005 75);   /* #2E2C2A */
+  --secondary-foreground: oklch(0.968 0.003 75);
+
+  --muted:              oklch(0.218 0.005 75);
+  --muted-foreground:   oklch(0.694 0.008 75);   /* #A8A49E */
+
+  --accent:             oklch(0.295 0.006 75);   /* #3D3B38 */
+  --accent-foreground:  oklch(0.968 0.003 75);
+
+  --destructive:            oklch(0.704 0.191 22);  /* #EF4444 */
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(1 0 0 / 10%);
+  --input:  oklch(1 0 0 / 15%);
+  --ring:   oklch(0.623 0.214 258);
+
+  --success:        oklch(0.729 0.154 154);  /* #22C55E */
+  --success-subtle: oklch(0.196 0.055 154);  /* #14532D */
+  --warning:        oklch(0.752 0.165 77);   /* #F59E0B */
+  --warning-subtle: oklch(0.137 0.035 30);   /* #451A03 */
+  --danger-subtle:  oklch(0.106 0.037 14);   /* #450A0A */
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring/30;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* ─── Quill Overrides ────────────────────────────────────────────────────── */
+.ql-toolbar.ql-snow {
+  border-color: var(--border) !important;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+  background: var(--background) !important;
+  font-family: var(--font-sans) !important;
+  padding: 8px !important;
+}
+.ql-container.ql-snow {
+  border-color: var(--border) !important;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.6 !important;
+  color: var(--foreground) !important;
+  background: var(--card) !important;
+}
+.ql-editor { padding: 12px 16px !important; }
+.ql-editor.ql-blank::before { color: var(--muted-foreground) !important; font-style: normal !important; }
+.ql-container.ql-snow:focus-within {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent) !important;
+}

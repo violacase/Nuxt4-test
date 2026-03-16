@@ -1,0 +1,38 @@
+{
+  "app": {
+    "name": "Mijn App"
+  },
+  "nav": {
+    "home": "Home",
+    "settings": "Instellingen",
+    "profile": "Profiel"
+  },
+  "auth": {
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "loginWith": "Inloggen met {provider}",
+    "loggedInAs": "Ingelogd als {name}"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "theme": "Thema",
+    "theme_light": "Licht",
+    "theme_dark": "Donker",
+    "language": "Taal",
+    "layout": "Indeling",
+    "layout_compact": "Compact",
+    "layout_comfortable": "Comfortabel",
+    "reset": "Standaardinstellingen herstellen"
+  },
+  "common": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "create": "Aanmaken",
+    "loading": "Laden...",
+    "error": "Er is iets misgegaan",
+    "empty": "Geen items gevonden",
+    "confirm": "Weet je het zeker?"
+  }
+}

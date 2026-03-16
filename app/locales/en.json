@@ -1,0 +1,38 @@
+{
+  "app": {
+    "name": "My App"
+  },
+  "nav": {
+    "home": "Home",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": "Log in",
+    "logout": "Log out",
+    "loginWith": "Log in with {provider}",
+    "loggedInAs": "Logged in as {name}"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "language": "Language",
+    "layout": "Layout",
+    "layout_compact": "Compact",
+    "layout_comfortable": "Comfortable",
+    "reset": "Reset to defaults"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "empty": "No items found",
+    "confirm": "Are you sure?"
+  }
+}
