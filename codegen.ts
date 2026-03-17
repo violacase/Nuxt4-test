@@ -2,10 +2,11 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   // Point at the running dev server GraphQL schema
-  schema: 'http://localhost:3000/api/graphql',
+  schema: 'http://localhost:3332/api/graphql',
 
   // Scan all .graphql operation files in composables/
   documents: ['app/composables/**/*.graphql'],
+  ignoreNoDocuments: true,
 
   generates: {
     // Single output file — never edit manually

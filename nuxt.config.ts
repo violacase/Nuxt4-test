@@ -6,6 +6,11 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  // ─── Dev Server ─────────────────────────────────────────────
+  devServer: {
+    port: 3332,
+  },
+
   // ─── Nitro (Node.js VPS deployment) ────────────────────────
   nitro: {
     preset: 'node-server',

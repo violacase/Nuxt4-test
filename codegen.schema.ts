@@ -6,7 +6,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 // Requires the dev server to be running: npm run dev
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:3000/api/graphql',
+  schema: 'http://localhost:3332/api/graphql',
 
   generates: {
     './schema.graphql': {

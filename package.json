@@ -1,5 +1,5 @@
 {
-  "name": "my-nuxt-app",
+  "name": "nuxt4-test",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,10 +7,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "concurrently --kill-others --names \"nuxt,codegen\" -c \"blueBright.bold,greenBright.bold\" \"nuxt dev\" \"npm run codegen:watch\"",
-    "build": "npm run lint:check && npm run codegen && npm run typecheck && nuxt build",
-    "preview": "nuxt preview",
-    "start": "node .output/server/index.mjs",
+    "dev": "fuser -k 3332/tcp || true && concurrently --kill-others --names \"nuxt,codegen\" -c \"blueBright.bold,greenBright.bold\" \"nuxt dev\" \"npm run codegen:watch\"",
+    "build": "npm run lint:check && npm run codegen:ci && npm run typecheck && nuxt build",
+    "preview": "fuser -k 3333/tcp || true && nuxt preview --port 3333",
+    "start": "fuser -k 3333/tcp || true && node --env-file=.env .output/server/index.mjs",
     "typecheck": "nuxt typecheck",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",

@@ -1,14 +1,17 @@
 // stores/settings.ts
-import { defineStore } from 'pinia'
+import { defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useSettingsStore = defineStore('settings', () => {
   // ─── Persisted via localStorage ─────────────────────────────
-  // Keys namespaced with 'settings:' to avoid collisions
-  const theme = useLocalStorage<'light' | 'dark'>('settings:theme', 'light')
-  const locale = useLocalStorage<string>('settings:locale', 'en')
-  const layout = useLocalStorage<'compact' | 'comfortable'>('settings:layout', 'comfortable')
-  const sidebarOpen = useLocalStorage<boolean>('settings:sidebarOpen', true)
+  // skipHydrate: prevents Pinia from serializing these on SSR and overwriting
+  // localStorage values with server defaults during client hydration.
+  const theme = skipHydrate(useLocalStorage<'light' | 'dark'>('settings:theme', 'light'))
+  const locale = skipHydrate(useLocalStorage<string>('settings:locale', 'en'))
+  const layout = skipHydrate(
+    useLocalStorage<'compact' | 'comfortable'>('settings:layout', 'comfortable'),
+  )
+  const sidebarOpen = skipHydrate(useLocalStorage<boolean>('settings:sidebarOpen', true))
 
   // ─── Actions ────────────────────────────────────────────────
   function toggleTheme() {
