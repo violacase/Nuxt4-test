@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Moon, Sun, ArrowRight } from 'lucide-vue-next'
+import { Moon, Sun, ArrowRight, CircleCheck, CircleX } from 'lucide-vue-next'
 
 const settings = useSettingsStore()
 
 useHead({ title: 'Nuxt4-test — Full-stack scaffold' })
+
+const { data: health } = await useFetch('/api/health')
 
 const stack = [
   'Nuxt 4',
@@ -66,8 +68,26 @@ const stack = [
         </div>
       </div>
 
+      <!-- DB status -->
+      <div
+        class="mt-12 flex items-center gap-2 rounded-sm border px-4 py-2 text-sm transition-colors duration-150"
+        :class="
+          health?.db
+            ? 'border-success/30 bg-success-subtle text-success'
+            : 'border-destructive/30 bg-danger-subtle text-destructive'
+        "
+      >
+        <CircleCheck v-if="health?.db" class="size-4 shrink-0" />
+        <CircleX v-else class="size-4 shrink-0" />
+        <span class="font-mono">
+          {{
+            health?.db ? 'Database connected — postgresql@localhost:5432' : 'Database unreachable'
+          }}
+        </span>
+      </div>
+
       <!-- Stack chips -->
-      <div class="mt-20 flex flex-wrap items-center justify-center gap-2">
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
         <span
           v-for="tech in stack"
           :key="tech"
