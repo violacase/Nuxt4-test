@@ -9,7 +9,9 @@ const { t } = useI18n()
 const open = ref(false)
 const menuRef = ref<HTMLElement | null>(null)
 
-onClickOutside(menuRef, () => { open.value = false })
+onClickOutside(menuRef, () => {
+  open.value = false
+})
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') open.value = false
@@ -35,25 +37,23 @@ async function handleLogout() {
   <div ref="menuRef" class="relative" @keydown="handleKeydown">
     <!-- Avatar button -->
     <button
-      :class="cn(
-        'flex size-8 items-center justify-center rounded-md',
-        'border border-border bg-muted',
-        'font-mono text-xs text-foreground',
-        'transition-colors duration-150 hover:bg-accent',
-        'focus:outline-none focus:ring-2 focus:ring-ring/30',
-        open && 'bg-accent',
-      )"
+      :class="
+        cn(
+          'flex size-8 items-center justify-center rounded-md',
+          'border border-border bg-muted',
+          'font-mono text-xs text-foreground',
+          'transition-colors duration-150 hover:bg-accent',
+          'focus:outline-none focus:ring-2 focus:ring-ring/30',
+          open && 'bg-accent',
+        )
+      "
       :aria-label="t('auth.userMenu.open')"
       :aria-expanded="open"
       :aria-haspopup="true"
       @click="open = !open"
     >
       <template v-if="user?.avatarUrl">
-        <img
-          :src="user.avatarUrl"
-          :alt="user.name"
-          class="size-full rounded-md object-cover"
-        />
+        <img :src="user.avatarUrl" :alt="user.name" class="size-full rounded-md object-cover" />
       </template>
       <template v-else>
         {{ initials }}
@@ -90,12 +90,14 @@ async function handleLogout() {
         <!-- Actions -->
         <div class="py-1">
           <button
-            :class="cn(
-              'flex w-full items-center gap-2 px-4 py-2',
-              'text-sm text-muted-foreground',
-              'transition-colors duration-150 hover:bg-accent hover:text-foreground',
-              'focus:bg-accent focus:text-foreground focus:outline-none',
-            )"
+            :class="
+              cn(
+                'flex w-full items-center gap-2 px-4 py-2',
+                'text-sm text-muted-foreground',
+                'transition-colors duration-150 hover:bg-accent hover:text-foreground',
+                'focus:bg-accent focus:text-foreground focus:outline-none',
+              )
+            "
             role="menuitem"
             @click="handleLogout"
           >

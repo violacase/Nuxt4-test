@@ -26,7 +26,9 @@ export default defineOAuthGitHubEventHandler({
     const existingAccount = await db
       .select()
       .from(oauthAccounts)
-      .where(and(eq(oauthAccounts.provider, 'github'), eq(oauthAccounts.providerUserId, providerUserId)))
+      .where(
+        and(eq(oauthAccounts.provider, 'github'), eq(oauthAccounts.providerUserId, providerUserId)),
+      )
       .limit(1)
 
     let userId: string
@@ -34,7 +36,10 @@ export default defineOAuthGitHubEventHandler({
     if (existingAccount[0]) {
       // OAuth account found — update user profile and reuse
       userId = existingAccount[0].userId
-      await db.update(users).set({ name, avatarUrl, updatedAt: new Date() }).where(eq(users.id, userId))
+      await db
+        .update(users)
+        .set({ name, avatarUrl, updatedAt: new Date() })
+        .where(eq(users.id, userId))
     } else {
       // No OAuth account — look up by email
       const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1)
@@ -48,14 +53,14 @@ export default defineOAuthGitHubEventHandler({
           userId,
           email,
         })
-        await db.update(users).set({ name, avatarUrl, updatedAt: new Date() }).where(eq(users.id, userId))
+        await db
+          .update(users)
+          .set({ name, avatarUrl, updatedAt: new Date() })
+          .where(eq(users.id, userId))
       } else {
         // New user — create user + OAuth account in a transaction
         const result = await db.transaction(async (tx) => {
-          const [newUser] = await tx
-            .insert(users)
-            .values({ email, name, avatarUrl })
-            .returning()
+          const [newUser] = await tx.insert(users).values({ email, name, avatarUrl }).returning()
           await tx.insert(oauthAccounts).values({
             provider: 'github',
             providerUserId,

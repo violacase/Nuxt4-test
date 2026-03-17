@@ -4,7 +4,13 @@ const settingsStore = useSettingsStore()
 const { locale } = useI18n()
 
 // Keep settings.locale in sync with the active i18n locale (e.g. when navigating to /nl/ directly)
-watch(locale, (val) => { settingsStore.locale = val }, { immediate: true })
+watch(
+  locale,
+  (val) => {
+    settingsStore.locale = val
+  },
+  { immediate: true },
+)
 
 useHead({
   // Blocking inline script runs before paint — prevents dark mode FOUC

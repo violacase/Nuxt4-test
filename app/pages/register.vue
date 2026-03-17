@@ -80,12 +80,14 @@ async function onSubmit() {
                 required
                 autocomplete="name"
                 :placeholder="t('auth.fields.namePlaceholder')"
-                :class="cn(
-                  'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
-                  'placeholder:text-muted-foreground',
-                  'transition-colors duration-150',
-                  'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
-                )"
+                :class="
+                  cn(
+                    'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
+                    'placeholder:text-muted-foreground',
+                    'transition-colors duration-150',
+                    'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
+                  )
+                "
               />
             </div>
 
@@ -101,12 +103,14 @@ async function onSubmit() {
                 required
                 autocomplete="email"
                 :placeholder="t('auth.fields.emailPlaceholder')"
-                :class="cn(
-                  'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
-                  'placeholder:text-muted-foreground',
-                  'transition-colors duration-150',
-                  'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
-                )"
+                :class="
+                  cn(
+                    'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
+                    'placeholder:text-muted-foreground',
+                    'transition-colors duration-150',
+                    'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
+                  )
+                "
               />
             </div>
 
@@ -124,12 +128,14 @@ async function onSubmit() {
                   minlength="8"
                   autocomplete="new-password"
                   :placeholder="t('auth.fields.passwordPlaceholder')"
-                  :class="cn(
-                    'h-9 w-full rounded-sm border border-input bg-card px-3 pr-10 text-sm text-foreground',
-                    'placeholder:text-muted-foreground',
-                    'transition-colors duration-150',
-                    'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
-                  )"
+                  :class="
+                    cn(
+                      'h-9 w-full rounded-sm border border-input bg-card px-3 pr-10 text-sm text-foreground',
+                      'placeholder:text-muted-foreground',
+                      'transition-colors duration-150',
+                      'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
+                    )
+                  "
                 />
                 <button
                   type="button"
@@ -164,13 +170,15 @@ async function onSubmit() {
             <button
               type="submit"
               :disabled="loading"
-              :class="cn(
-                'flex h-9 w-full items-center justify-center gap-2 rounded-md',
-                'bg-primary text-sm text-primary-foreground',
-                'transition-colors duration-150 hover:bg-primary/90',
-                'focus:outline-none focus:ring-2 focus:ring-ring/30',
-                'disabled:cursor-not-allowed disabled:opacity-50',
-              )"
+              :class="
+                cn(
+                  'flex h-9 w-full items-center justify-center gap-2 rounded-md',
+                  'bg-primary text-sm text-primary-foreground',
+                  'transition-colors duration-150 hover:bg-primary/90',
+                  'focus:outline-none focus:ring-2 focus:ring-ring/30',
+                  'disabled:cursor-not-allowed disabled:opacity-50',
+                )
+              "
             >
               <Loader2 v-if="loading" class="size-4 animate-spin" />
               {{ loading ? t('auth.register.submitting') : t('auth.register.submit') }}

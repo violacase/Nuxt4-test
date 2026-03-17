@@ -15,7 +15,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Password must be at least 8 characters' })
   }
 
-  const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, body.email)).limit(1)
+  const existing = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, body.email))
+    .limit(1)
   if (existing.length > 0) {
     throw createError({ statusCode: 409, message: 'Email already in use' })
   }

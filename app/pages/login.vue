@@ -67,7 +67,9 @@ const oauthError = computed(() => route.query.error === 'oauth')
       </div>
 
       <!-- Card -->
-      <div class="w-full max-w-sm overflow-hidden rounded-md border border-border bg-card shadow-[--shadow-sm]">
+      <div
+        class="w-full max-w-sm overflow-hidden rounded-md border border-border bg-card shadow-[--shadow-sm]"
+      >
         <!-- OAuth error banner (top of card) -->
         <Transition
           enter-active-class="transition-all duration-200"
@@ -97,12 +99,14 @@ const oauthError = computed(() => route.query.error === 'oauth')
                 required
                 autocomplete="email"
                 :placeholder="t('auth.fields.emailPlaceholder')"
-                :class="cn(
-                  'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
-                  'placeholder:text-muted-foreground',
-                  'transition-colors duration-150',
-                  'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
-                )"
+                :class="
+                  cn(
+                    'h-9 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground',
+                    'placeholder:text-muted-foreground',
+                    'transition-colors duration-150',
+                    'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
+                  )
+                "
               />
             </div>
 
@@ -119,12 +123,14 @@ const oauthError = computed(() => route.query.error === 'oauth')
                   required
                   autocomplete="current-password"
                   :placeholder="t('auth.fields.passwordPlaceholder')"
-                  :class="cn(
-                    'h-9 w-full rounded-sm border border-input bg-card px-3 pr-10 text-sm text-foreground',
-                    'placeholder:text-muted-foreground',
-                    'transition-colors duration-150',
-                    'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
-                  )"
+                  :class="
+                    cn(
+                      'h-9 w-full rounded-sm border border-input bg-card px-3 pr-10 text-sm text-foreground',
+                      'placeholder:text-muted-foreground',
+                      'transition-colors duration-150',
+                      'focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/30',
+                    )
+                  "
                 />
                 <button
                   type="button"
@@ -158,13 +164,15 @@ const oauthError = computed(() => route.query.error === 'oauth')
             <button
               type="submit"
               :disabled="loading"
-              :class="cn(
-                'flex h-9 w-full items-center justify-center gap-2 rounded-md',
-                'bg-primary text-sm text-primary-foreground',
-                'transition-colors duration-150 hover:bg-primary/90',
-                'focus:outline-none focus:ring-2 focus:ring-ring/30',
-                'disabled:cursor-not-allowed disabled:opacity-50',
-              )"
+              :class="
+                cn(
+                  'flex h-9 w-full items-center justify-center gap-2 rounded-md',
+                  'bg-primary text-sm text-primary-foreground',
+                  'transition-colors duration-150 hover:bg-primary/90',
+                  'focus:outline-none focus:ring-2 focus:ring-ring/30',
+                  'disabled:cursor-not-allowed disabled:opacity-50',
+                )
+              "
             >
               <Loader2 v-if="loading" class="size-4 animate-spin" />
               {{ loading ? t('auth.login.submitting') : t('auth.login.submit') }}
@@ -181,16 +189,20 @@ const oauthError = computed(() => route.query.error === 'oauth')
           <!-- GitHub OAuth -->
           <button
             type="button"
-            :class="cn(
-              'flex h-9 w-full items-center justify-center gap-2 rounded-md',
-              'border border-border bg-card text-sm text-foreground',
-              'transition-colors duration-150 hover:bg-accent',
-              'focus:outline-none focus:ring-2 focus:ring-ring/30',
-            )"
+            :class="
+              cn(
+                'flex h-9 w-full items-center justify-center gap-2 rounded-md',
+                'border border-border bg-card text-sm text-foreground',
+                'transition-colors duration-150 hover:bg-accent',
+                'focus:outline-none focus:ring-2 focus:ring-ring/30',
+              )
+            "
             @click="loginWith('github')"
           >
             <svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
+              <path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"
+              />
             </svg>
             {{ t('auth.login.github') }}
           </button>
