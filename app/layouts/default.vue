@@ -1,6 +1,6 @@
 <!-- layouts/default.vue -->
 <template>
-  <div class="min-h-screen bg-[--color-canvas] text-[--color-text-primary]">
+  <div class="min-h-screen bg-background text-foreground">
     <slot />
   </div>
 </template>
