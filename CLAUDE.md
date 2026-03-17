@@ -57,7 +57,6 @@ The `server/` directory always stays at the project root.
 │   ├── composables/       ← Auto-imported useXxx() composables
 │   ├── lib/
 │   │   └── utils.ts       ← cn() helper (clsx + tailwind-merge)
-│   ├── locales/           ← i18n JSON files (en.json, nl.json, etc.)
 │   ├── middleware/        ← Nuxt route middleware
 │   ├── pages/             ← File-based routing
 │   ├── plugins/           ← Nuxt plugins
@@ -74,6 +73,8 @@ The `server/` directory always stays at the project root.
 │   │   └── index.ts       ← DB client singleton (postgres.js + drizzle)
 │   ├── middleware/        ← Nitro server middleware
 │   └── plugins/           ← Nitro plugins
+├── i18n/
+│   └── locales/           ← i18n JSON files (en.json, nl.json, etc.) — @nuxtjs/i18n v10 convention
 └── shared/                ← (optional) code shared between app and server
 ```
 
@@ -308,7 +309,7 @@ Always sanitize HTML server-side before storing (use `sanitize-html`).
 ## i18n
 
 - Default locale: `en`
-- Locale files: `app/locales/en.json`, `app/locales/nl.json` etc.
+- Locale files: `i18n/locales/en.json`, `i18n/locales/nl.json` etc. (`@nuxtjs/i18n` v10 resolves `langDir` relative to `<rootDir>/i18n/`)
 - Always use `const { t } = useI18n()` in components
 - Never hardcode user-facing strings in components
 
