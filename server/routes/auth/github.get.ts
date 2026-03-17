@@ -8,8 +8,8 @@
 
 import type { H3Event } from 'h3'
 import { db } from '../../db'
-import { users } from '../../db/schema/users'
-import { eq } from 'drizzle-orm'
+import { users, oauthAccounts } from '../../db/schema/users'
+import { eq, and } from 'drizzle-orm'
 
 export default defineOAuthGitHubEventHandler({
   config: {
@@ -20,34 +20,64 @@ export default defineOAuthGitHubEventHandler({
     const email = (githubUser.email ?? '') as string
     const name = (githubUser.name ?? githubUser.login) as string
     const avatarUrl = (githubUser.avatar_url ?? null) as string | null
-    const providerId = String(githubUser.id)
+    const providerUserId = String(githubUser.id)
 
-    const existing = await db.select().from(users).where(eq(users.email, email)).limit(1)
+    // 1. Look up existing OAuth account
+    const existingAccount = await db
+      .select()
+      .from(oauthAccounts)
+      .where(and(eq(oauthAccounts.provider, 'github'), eq(oauthAccounts.providerUserId, providerUserId)))
+      .limit(1)
 
-    let user = existing[0]
+    let userId: string
 
-    if (!user) {
-      const result = await db
-        .insert(users)
-        .values({ email, name, avatarUrl, provider: 'github', providerId })
-        .returning()
-      user = result[0]!
+    if (existingAccount[0]) {
+      // OAuth account found — update user profile and reuse
+      userId = existingAccount[0].userId
+      await db.update(users).set({ name, avatarUrl, updatedAt: new Date() }).where(eq(users.id, userId))
     } else {
-      const result = await db
-        .update(users)
-        .set({ name, avatarUrl, updatedAt: new Date() })
-        .where(eq(users.id, user.id))
-        .returning()
-      user = result[0]!
+      // No OAuth account — look up by email
+      const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1)
+
+      if (existingUser[0]) {
+        // Link OAuth account to existing user
+        userId = existingUser[0].id
+        await db.insert(oauthAccounts).values({
+          provider: 'github',
+          providerUserId,
+          userId,
+          email,
+        })
+        await db.update(users).set({ name, avatarUrl, updatedAt: new Date() }).where(eq(users.id, userId))
+      } else {
+        // New user — create user + OAuth account in a transaction
+        const result = await db.transaction(async (tx) => {
+          const [newUser] = await tx
+            .insert(users)
+            .values({ email, name, avatarUrl })
+            .returning()
+          await tx.insert(oauthAccounts).values({
+            provider: 'github',
+            providerUserId,
+            userId: newUser!.id,
+            email,
+          })
+          return newUser!
+        })
+        userId = result.id
+      }
     }
+
+    const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1)
 
     await setUserSession(event, {
       user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        avatarUrl: user.avatarUrl,
-        role: user.role,
+        id: user!.id,
+        email: user!.email,
+        name: user!.name,
+        avatarUrl: user!.avatarUrl,
+        role: user!.role,
+        emailVerified: user!.emailVerified,
       },
     })
 

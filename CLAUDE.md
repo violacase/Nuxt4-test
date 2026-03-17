@@ -312,6 +312,7 @@ Always sanitize HTML server-side before storing (use `sanitize-html`).
 - Locale files: `i18n/locales/en.json`, `i18n/locales/nl.json` etc. (`@nuxtjs/i18n` v10 resolves `langDir` relative to `<rootDir>/i18n/`)
 - Always use `const { t } = useI18n()` in components
 - Never hardcode user-facing strings in components
+- **`@` must be escaped in locale values** — vue-i18n treats `@` as a linked-message prefix. Use `{'@'}` anywhere a literal `@` appears (e.g. email placeholders, connection strings). Example: `"you{'@'}example.com"` not `"you@example.com"`.
 
 ---
 

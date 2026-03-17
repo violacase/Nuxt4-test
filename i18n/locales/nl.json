@@ -2,16 +2,60 @@
   "app": {
     "name": "Nuxt4-test"
   },
+  "landing": {
+    "eyebrow": "Full-stack · Nuxt 4",
+    "headline": "Bouw iets",
+    "headlineEm": "de moeite waard.",
+    "subtitle": "Een productieklare basis met GraphQL Yoga, Drizzle ORM, Tailwind CSS v4, Pinia en volledige end-to-end typeveiligheid. Sla de opzet over. Begin met bouwen.",
+    "cta": "Bekijk op GitHub",
+    "dbConnected": "Database verbonden — postgresql{'@'}localhost:5432",
+    "dbUnreachable": "Database onbereikbaar",
+    "footer": "Nuxt4-test — MIT-licentie"
+  },
   "nav": {
     "home": "Home",
     "settings": "Instellingen",
     "profile": "Profiel"
   },
   "auth": {
-    "login": "Inloggen",
+    "loginLabel": "Inloggen",
     "logout": "Uitloggen",
     "loginWith": "Inloggen met {provider}",
-    "loggedInAs": "Ingelogd als {name}"
+    "loggedInAs": "Ingelogd als {name}",
+    "or": "of",
+    "login": {
+      "title": "Welkom terug",
+      "subtitle": "Log in op je account",
+      "submit": "Inloggen",
+      "submitting": "Bezig met inloggen…",
+      "github": "Doorgaan met GitHub",
+      "noAccount": "Nog geen account?",
+      "registerLink": "Maak er een aan"
+    },
+    "register": {
+      "title": "Account aanmaken",
+      "subtitle": "Ga gratis aan de slag",
+      "submit": "Account aanmaken",
+      "submitting": "Account aanmaken…",
+      "hasAccount": "Heb je al een account?",
+      "loginLink": "Inloggen"
+    },
+    "fields": {
+      "name": "Naam",
+      "namePlaceholder": "Jouw naam",
+      "email": "E-mail",
+      "emailPlaceholder": "jij{'@'}voorbeeld.nl",
+      "password": "Wachtwoord",
+      "passwordPlaceholder": "Min. 8 tekens",
+      "passwordHint": "Minimaal 8 tekens vereist"
+    },
+    "error": {
+      "generic": "Er is iets misgegaan. Probeer het opnieuw.",
+      "oauth": "GitHub-login mislukt. Probeer het opnieuw."
+    },
+    "userMenu": {
+      "open": "Gebruikersmenu openen"
+    }
   },
   "settings": {
     "title": "Instellingen",

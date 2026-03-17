@@ -9,6 +9,7 @@ declare module '#auth-utils' {
     name: string
     avatarUrl: string | null
     role: 'admin' | 'member' | 'guest'
+    emailVerified: boolean
   }
 }
 
