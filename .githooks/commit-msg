@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Enforce Conventional Commits format
+# Pattern: type(scope)?: subject
+COMMIT_MSG=$(cat "$1")
+PATTERN="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?: .{1,72}"
+
+if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
+  echo ""
+  echo "ERROR: Commit message does not follow Conventional Commits format."
+  echo ""
+  echo "  Expected: type(scope)?: subject"
+  echo "  Types:    feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert"
+  echo "  Example:  feat(auth): add GitHub OAuth login"
+  echo ""
+  echo "  Your message: $COMMIT_MSG"
+  echo ""
+  exit 1
+fi
