@@ -9,13 +9,14 @@ import {
   PanelLeftOpen,
   User,
 } from 'lucide-vue-next'
-import { useLocalStorage } from '@vueuse/core'
 import { cn } from '~/lib/utils'
 
 const route = useRoute()
-const { user, loggedIn } = useUserSession()
+const { user, loggedIn, logout } = useAuth()
+const settings = useSettingsStore()
 
-const isCollapsed = useLocalStorage<boolean>('settings:sidebar', false)
+// isCollapsed is the inverse of the store's sidebarOpen
+const isCollapsed = computed(() => !settings.sidebarOpen)
 
 const navItems = [
   { label: 'Dashboard', href: '/', icon: Home },
@@ -28,22 +29,18 @@ function isActive(href: string) {
   if (href === '/') return route.path === '/'
   return route.path.startsWith(href)
 }
-
-function toggle() {
-  isCollapsed.value = !isCollapsed.value
-}
 </script>
 
 <template>
   <aside
     :class="
       cn(
-        'group/sidebar flex h-screen flex-col bg-card border-r border-border',
+        'group/sidebar flex flex-col bg-card border-r border-border',
         'transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
-        'overflow-hidden shrink-0 sticky top-0',
-        isCollapsed ? 'w-14' : 'w-60',
+        'overflow-hidden shrink-0 sticky top-14 h-[calc(100vh-3.5rem)]',
       )
     "
+    style="width: var(--sidebar-width, 15rem)"
   >
     <!-- Header -->
     <div
@@ -77,7 +74,7 @@ function toggle() {
           )
         "
         :aria-label="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
-        @click="toggle"
+        @click="settings.toggleSidebar()"
       >
         <PanelLeftClose v-if="!isCollapsed" :size="18" />
         <PanelLeftOpen v-else :size="18" />
@@ -175,25 +172,25 @@ function toggle() {
           </p>
         </div>
 
-        <NuxtLink
+        <button
           v-if="loggedIn"
-          to="/api/auth/logout"
           class="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-danger-subtle transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring/30"
           aria-label="Sign out"
+          @click="logout"
         >
           <LogOut :size="15" />
-        </NuxtLink>
+        </button>
       </div>
 
       <!-- Logout tooltip when collapsed -->
       <div v-if="isCollapsed && loggedIn" class="relative group/logout">
-        <NuxtLink
-          to="/api/auth/logout"
+        <button
           class="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-danger-subtle transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring/30"
           aria-label="Sign out"
+          @click="logout"
         >
           <LogOut :size="15" />
-        </NuxtLink>
+        </button>
         <div
           class="pointer-events-none absolute left-full ml-2 bottom-0 z-50 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background shadow-[--shadow-lg] opacity-0 group-hover/logout:opacity-100 transition-opacity duration-150"
         >

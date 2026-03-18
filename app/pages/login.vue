@@ -2,11 +2,11 @@
 import { Eye, EyeOff, Loader2, AlertCircle, Moon, Sun } from 'lucide-vue-next'
 import { cn } from '~/lib/utils'
 
-definePageMeta({ layout: false })
-
 const { loginWithPassword, loginWith } = useAuth()
 const { t } = useI18n()
 const settings = useSettingsStore()
+const router = useRouter()
+const route = useRoute()
 
 const email = ref('')
 const password = ref('')
@@ -19,7 +19,7 @@ async function onSubmit() {
   loading.value = true
   try {
     await loginWithPassword(email.value, password.value)
-    await navigateTo('/')
+    await router.push('/')
   } catch (e: unknown) {
     error.value = (e as { data?: { message?: string } })?.data?.message ?? t('auth.error.generic')
   } finally {
@@ -27,7 +27,6 @@ async function onSubmit() {
   }
 }
 
-const route = useRoute()
 const oauthError = computed(() => route.query.error === 'oauth')
 </script>
 

@@ -2,11 +2,10 @@
 import { Eye, EyeOff, Loader2, AlertCircle, Moon, Sun } from 'lucide-vue-next'
 import { cn } from '~/lib/utils'
 
-definePageMeta({ layout: false })
-
 const { register } = useAuth()
 const { t } = useI18n()
 const settings = useSettingsStore()
+const router = useRouter()
 
 const name = ref('')
 const email = ref('')
@@ -20,7 +19,7 @@ async function onSubmit() {
   loading.value = true
   try {
     await register(name.value, email.value, password.value)
-    await navigateTo('/')
+    await router.push('/')
   } catch (e: unknown) {
     error.value = (e as { data?: { message?: string } })?.data?.message ?? t('auth.error.generic')
   } finally {

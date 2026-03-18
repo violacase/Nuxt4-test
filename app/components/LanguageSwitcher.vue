@@ -3,13 +3,12 @@ import { Globe } from 'lucide-vue-next'
 import { cn } from '~/lib/utils'
 
 const { locale } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
 const settings = useSettingsStore()
 
 function switchLocale() {
   const next = locale.value === 'en' ? 'nl' : 'en'
+  locale.value = next
   settings.locale = next
-  navigateTo(switchLocalePath(next))
 }
 </script>
 

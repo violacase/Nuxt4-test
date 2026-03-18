@@ -1,8 +1,10 @@
 // server/api/auth/register.post.ts
+import { defineEventHandler, createError, readBody } from 'h3'
 import bcrypt from 'bcryptjs'
-import { db } from '../../db'
-import { users } from '../../db/schema/users'
+import { db } from '../../db/index.js'
+import { users } from '../../db/schema/users.js'
 import { eq } from 'drizzle-orm'
+import { getSession } from '../../lib/session.js'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email: string; name: string; password: string }>(event)
@@ -38,16 +40,16 @@ export default defineEventHandler(async (event) => {
 
   const user = result[0]!
 
-  await setUserSession(event, {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      avatarUrl: user.avatarUrl,
-      role: user.role,
-      emailVerified: user.emailVerified,
-    },
-  })
+  const session = await getSession(event)
+  session.user = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatarUrl: user.avatarUrl,
+    role: user.role,
+    emailVerified: user.emailVerified,
+  }
+  await session.save()
 
   return { ok: true }
 })

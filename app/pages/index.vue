@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { Moon, Sun, ArrowRight, CircleCheck, CircleX } from 'lucide-vue-next'
+import { ArrowRight, CircleCheck, CircleX } from 'lucide-vue-next'
 
 const { t } = useI18n()
-const settings = useSettingsStore()
-const { loggedIn } = useAuth()
 
 useHead({ title: 'Nuxt4-test — Full-stack scaffold' })
 
-const { data: health } = await useFetch('/api/health')
+const health = ref<{ db: boolean } | null>(null)
+onMounted(async () => {
+  const res = await fetch('/api/health')
+  if (res.ok) health.value = await res.json() as { db: boolean }
+})
 
 const stack = [
-  'Nuxt 4',
+  'Vue 3',
   'GraphQL Yoga',
   'Drizzle ORM',
   'Tailwind v4',
@@ -21,43 +23,8 @@ const stack = [
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col">
-    <!-- ── Header ─────────────────────────────────────────────── -->
-    <header class="border-b border-border">
-      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
-        <span class="font-mono text-sm text-muted-foreground">nuxt4-test</span>
-        <div class="flex items-center gap-1">
-          <LanguageSwitcher />
-          <button
-            class="flex h-8 items-center gap-2 rounded-md px-3 text-sm text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-            :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
-            @click="settings.toggleTheme()"
-          >
-            <ClientOnly>
-              <Sun v-if="settings.theme === 'dark'" class="size-4" />
-              <Moon v-else class="size-4" />
-              <template #fallback><Moon class="size-4" /></template>
-            </ClientOnly>
-          </button>
-          <ClientOnly>
-            <template v-if="loggedIn">
-              <UserMenu />
-            </template>
-            <template v-else>
-              <NuxtLink
-                to="/login"
-                class="flex h-8 items-center gap-2 rounded-md border border-border px-3 text-sm text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-              >
-                {{ t('auth.loginLabel') }}
-              </NuxtLink>
-            </template>
-          </ClientOnly>
-        </div>
-      </div>
-    </header>
-
-    <!-- ── Hero ───────────────────────────────────────────────── -->
-    <main class="flex flex-1 flex-col items-center justify-center px-6 py-24">
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+    <div class="flex flex-1 flex-col items-center justify-center px-6 py-24">
       <div class="max-w-2xl text-center">
         <!-- Eyebrow -->
         <p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">
@@ -114,7 +81,7 @@ const stack = [
           {{ tech }}
         </span>
       </div>
-    </main>
+    </div>
 
     <!-- ── Footer ─────────────────────────────────────────────── -->
     <footer class="border-t border-border">
@@ -123,5 +90,4 @@ const stack = [
         <p class="text-xs text-muted-foreground">violacase</p>
       </div>
     </footer>
-  </div>
 </template>

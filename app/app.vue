@@ -1,33 +1,34 @@
 <!-- app.vue -->
 <script setup lang="ts">
+import DefaultLayout from './layouts/default.vue'
+
+const route = useRoute()
 const settingsStore = useSettingsStore()
 const { locale } = useI18n()
 
-// Keep settings.locale in sync with the active i18n locale (e.g. when navigating to /nl/ directly)
+// Initialize i18n locale from settings store (which reads from localStorage)
+locale.value = settingsStore.locale
+
+// Keep settings.locale in sync when locale changes programmatically
+watch(locale, (val) => {
+  settingsStore.locale = val
+})
+
+// Keep <html lang="..."> in sync
 watch(
-  locale,
+  () => settingsStore.locale,
   (val) => {
-    settingsStore.locale = val
+    document.documentElement.lang = val
   },
   { immediate: true },
 )
 
-useHead({
-  // Blocking inline script runs before paint — prevents dark mode FOUC
-  script: [
-    {
-      innerHTML: `(function(){var t=localStorage.getItem('settings:theme');if(t==='dark')document.documentElement.classList.add('dark')})()`,
-      tagPosition: 'head',
-    },
-  ],
-  htmlAttrs: {
-    lang: computed(() => settingsStore.locale),
-  },
-})
+const isDefaultLayout = computed(() => route.meta.layout !== false)
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <DefaultLayout v-if="isDefaultLayout">
+    <RouterView />
+  </DefaultLayout>
+  <RouterView v-else />
 </template>
