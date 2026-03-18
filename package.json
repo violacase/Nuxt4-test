@@ -7,7 +7,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "fuser -k 3332/tcp || true && concurrently --kill-others --names \"vite,h3,codegen\" -c \"blueBright.bold,cyanBright.bold,greenBright.bold\" \"vite\" \"PORT=3332 node --env-file=.env --import tsx --watch server/main.ts\" \"npm run codegen:watch\"",
+    "dev": "fuser -k 3332/tcp || true && concurrently --kill-others-on-fail --names \"vite,h3,codegen\" -c \"blueBright.bold,cyanBright.bold,greenBright.bold\" \"vite\" \"PORT=3332 node --env-file=.env --import tsx --watch server/main.ts\" \"graphql-codegen --config codegen.ci.ts --watch\"",
     "build": "npm run lint:check && npm run codegen:ci && vite build && npm run typecheck",
     "preview": "vite preview",
     "start": "NODE_ENV=production node --env-file=.env --import tsx server/main.ts",
@@ -29,8 +29,8 @@
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@unhead/vue": "^2.0.0",
-    "@vueuse/core": "^13.0.0",
     "@vueup/vue-quill": "^1.2.0",
+    "@vueuse/core": "^13.0.0",
     "arctic": "^2.0.0",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
@@ -57,6 +57,7 @@
     "@graphql-codegen/schema-ast": "^5.0.1",
     "@graphql-codegen/typescript": "^4.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.0",
+    "@parcel/watcher": "^2.5.6",
     "@tailwindcss/vite": "^4.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/sanitize-html": "^2.13.0",
