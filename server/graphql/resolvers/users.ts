@@ -16,11 +16,7 @@ export const userResolvers = {
     me: async (_: unknown, _args: unknown, ctx: Context): Promise<User | null> => {
       const session = await getSession(ctx.event)
       if (!session?.user?.id) return null
-      const result = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, session.user.id))
-        .limit(1)
+      const result = await db.select().from(users).where(eq(users.id, session.user.id)).limit(1)
       return result[0] ?? null
     },
 

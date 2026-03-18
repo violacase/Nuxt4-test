@@ -4,8 +4,6 @@ useI18n()
 
 <template>
   <div class="p-6">
-    <p class="text-muted-foreground">
-      Component library and design system reference. Coming soon.
-    </p>
+    <p class="text-muted-foreground">Component library and design system reference. Coming soon.</p>
   </div>
 </template>

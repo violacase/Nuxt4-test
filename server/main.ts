@@ -39,5 +39,5 @@ if (process.env.NODE_ENV === 'production') {
 // ── Start server ──────────────────────────────────────────────
 const port = Number(process.env.PORT ?? 3332)
 createServer(toNodeListener(app)).listen(port, () => {
-  console.log(`H3 server running on http://localhost:${port}`)
+  console.warn(`H3 server running on http://localhost:${port}`)
 })

@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function fetchSession() {
     try {
       const res = await fetch('/api/auth/me')
-      user.value = res.ok ? (await res.json() as { user: SessionUser }).user : null
+      user.value = res.ok ? ((await res.json()) as { user: SessionUser }).user : null
     } catch {
       user.value = null
     } finally {
