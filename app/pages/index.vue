@@ -3,7 +3,7 @@ import { ArrowRight, CircleCheck, CircleX } from 'lucide-vue-next'
 
 const { t } = useI18n()
 
-useHead({ title: 'Nuxt4-test — Full-stack scaffold' })
+useHead({ title: 'Vue3-test — Full-stack scaffold' })
 
 const health = ref<{ db: boolean } | null>(null)
 onMounted(async () => {
@@ -44,7 +44,7 @@ const stack = [
       <!-- CTA -->
       <div class="mt-10 flex items-center justify-center">
         <a
-          href="https://github.com/violacase/Nuxt4-test"
+          href="https://github.com/violacase/Vue3-test"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-6 text-base text-primary-foreground transition-colors duration-150 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring/30"

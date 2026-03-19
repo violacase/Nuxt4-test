@@ -38,7 +38,7 @@ const oauthError = computed(() => route.query.error === 'oauth')
         to="/"
         class="font-mono text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
       >
-        nuxt4-test
+        Vue3-test
       </NuxtLink>
       <button
         class="flex h-8 items-center gap-2 rounded-md px-3 text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"

@@ -60,7 +60,7 @@ function isActive(href: string) {
         <div class="w-6 h-6 rounded-sm bg-primary flex items-center justify-center shrink-0">
           <span class="text-xs font-medium text-primary-foreground">N</span>
         </div>
-        <span class="text-sm font-medium text-foreground truncate">Nuxt4-test</span>
+        <span class="text-sm font-medium text-foreground truncate">Vue3-test</span>
       </NuxtLink>
 
       <!-- Collapse toggle -->

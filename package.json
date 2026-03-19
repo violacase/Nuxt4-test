@@ -1,5 +1,5 @@
 {
-  "name": "nuxt4-test",
+  "name": "vue3-test",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,10 +7,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "fuser -k 3332/tcp || true && concurrently --kill-others-on-fail --names \"vite,h3,codegen\" -c \"blueBright.bold,cyanBright.bold,greenBright.bold\" \"vite\" \"PORT=3332 node --env-file=.env --import tsx --watch server/main.ts\" \"graphql-codegen --config codegen.ci.ts --watch\"",
+    "dev": "fuser -k 3332/tcp 3333/tcp || true && concurrently --kill-others-on-fail --names \"vite,h3,codegen\" -c \"blueBright.bold,cyanBright.bold,greenBright.bold\" \"vite\" \"PORT=3332 node --env-file=.env --import tsx --watch server/main.ts\" \"graphql-codegen --config codegen.ci.ts --watch\"",
     "build": "npm run lint:check && npm run codegen:ci && vite build && npm run typecheck",
-    "preview": "vite preview",
-    "start": "NODE_ENV=production node --env-file=.env --import tsx server/main.ts",
+    "preview": "fuser -k 3333/tcp || true && vite preview --port 3333",
+    "start": "fuser -k 3333/tcp || true && PORT=3333 NODE_ENV=production node --env-file=.env --import tsx server/main.ts",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",

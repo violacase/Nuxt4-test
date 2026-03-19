@@ -1,4 +1,4 @@
-# Nuxt4-test
+# Vue3-test
 
 A production-ready full-stack scaffold with an end-to-end type chain from Postgres through to Vue components, and a complete authentication system (email/password + GitHub OAuth).
 

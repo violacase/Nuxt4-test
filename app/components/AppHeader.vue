@@ -13,7 +13,7 @@ const { loggedIn } = useAuth()
         to="/"
         class="font-mono text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 rounded-sm"
       >
-        nuxt4-test
+        Vue3-test
       </NuxtLink>
 
       <div class="flex items-center gap-1">
