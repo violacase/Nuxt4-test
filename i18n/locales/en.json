@@ -1,16 +1,16 @@
 {
   "app": {
-    "name": "Nuxt4-test"
+    "name": "Vue3-test"
   },
   "landing": {
-    "eyebrow": "Full-stack · Nuxt 4",
+    "eyebrow": "Full-stack · Vue 3",
     "headline": "Build something",
     "headlineEm": "worth shipping.",
     "subtitle": "A production-ready scaffold wired with GraphQL Yoga, Drizzle ORM, Tailwind CSS v4, Pinia, and full end-to-end type safety. Skip the setup. Start building.",
     "cta": "View on GitHub",
     "dbConnected": "Database connected — postgresql{'@'}localhost:5432",
     "dbUnreachable": "Database unreachable",
-    "footer": "Nuxt4-test — MIT License"
+    "footer": "Vue3-test — MIT License"
   },
   "nav": {
     "home": "Home",
@@ -66,7 +66,20 @@
     "layout": "Layout",
     "layout_compact": "Compact",
     "layout_comfortable": "Comfortable",
-    "reset": "Reset to defaults"
+    "reset": "Reset to defaults",
+    "account": "Account",
+    "account_name": "Name",
+    "account_email": "Email",
+    "account_role": "Role",
+    "password_section": "Change password",
+    "password_current": "Current password",
+    "password_new": "New password",
+    "password_confirm": "Confirm new password",
+    "password_save": "Update password",
+    "password_saving": "Updating…",
+    "password_success": "Password updated",
+    "password_mismatch": "Passwords do not match",
+    "password_no_password": "Your account uses GitHub sign-in — no password to change"
   },
   "common": {
     "save": "Save",

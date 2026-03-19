@@ -1,16 +1,16 @@
 {
   "app": {
-    "name": "Nuxt4-test"
+    "name": "Vue3-test"
   },
   "landing": {
-    "eyebrow": "Full-stack · Nuxt 4",
+    "eyebrow": "Full-stack · Vue 3",
     "headline": "Bouw iets",
     "headlineEm": "de moeite waard.",
     "subtitle": "Een productieklare basis met GraphQL Yoga, Drizzle ORM, Tailwind CSS v4, Pinia en volledige end-to-end typeveiligheid. Sla de opzet over. Begin met bouwen.",
     "cta": "Bekijk op GitHub",
     "dbConnected": "Database verbonden — postgresql{'@'}localhost:5432",
     "dbUnreachable": "Database onbereikbaar",
-    "footer": "Nuxt4-test — MIT-licentie"
+    "footer": "Vue3-test — MIT-licentie"
   },
   "nav": {
     "home": "Home",
@@ -66,7 +66,20 @@
     "layout": "Indeling",
     "layout_compact": "Compact",
     "layout_comfortable": "Comfortabel",
-    "reset": "Standaardinstellingen herstellen"
+    "reset": "Standaardinstellingen herstellen",
+    "account": "Account",
+    "account_name": "Naam",
+    "account_email": "E-mail",
+    "account_role": "Rol",
+    "password_section": "Wachtwoord wijzigen",
+    "password_current": "Huidig wachtwoord",
+    "password_new": "Nieuw wachtwoord",
+    "password_confirm": "Bevestig nieuw wachtwoord",
+    "password_save": "Wachtwoord bijwerken",
+    "password_saving": "Bijwerken…",
+    "password_success": "Wachtwoord bijgewerkt",
+    "password_mismatch": "Wachtwoorden komen niet overeen",
+    "password_no_password": "Je account gebruikt GitHub-login — geen wachtwoord om te wijzigen"
   },
   "common": {
     "save": "Opslaan",

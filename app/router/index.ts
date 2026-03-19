@@ -29,6 +29,7 @@ export const router = createRouter({
     {
       path: '/settings',
       component: () => import('../pages/settings.vue'),
+      meta: { requiresAuth: true },
     },
   ],
 })

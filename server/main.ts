@@ -7,6 +7,7 @@ import loginHandler from './api/auth/login.post.js'
 import registerHandler from './api/auth/register.post.js'
 import logoutHandler from './api/auth/logout.post.js'
 import meHandler from './api/auth/me.get.js'
+import passwordHandler from './api/auth/password.patch.js'
 import { githubHandler, githubCallbackHandler } from './routes/auth/github.get.js'
 import graphqlHandler from './api/graphql.js'
 
@@ -19,6 +20,7 @@ router.post('/api/auth/login', loginHandler)
 router.post('/api/auth/register', registerHandler)
 router.post('/api/auth/logout', logoutHandler)
 router.get('/api/auth/me', meHandler)
+router.patch('/api/auth/password', passwordHandler)
 
 // ── OAuth routes ─────────────────────────────────────────────
 router.get('/auth/github', githubHandler)
