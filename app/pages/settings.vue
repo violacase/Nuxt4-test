@@ -57,7 +57,6 @@ function setLocale(code: string) {
     <h1 class="font-serif text-3xl text-foreground">{{ t('settings.title') }}</h1>
 
     <div class="mt-8 flex flex-col gap-6">
-
       <!-- ── Appearance ─────────────────────────────────────────── -->
       <div class="rounded-md border border-border bg-card p-6">
         <p class="text-sm font-medium text-foreground">{{ t('settings.theme') }}</p>
@@ -164,7 +163,9 @@ function setLocale(code: string) {
 
         <form class="mt-3 flex flex-col gap-3" @submit.prevent="changePassword">
           <div class="flex flex-col gap-1">
-            <label class="text-xs text-muted-foreground">{{ t('settings.password_current') }}</label>
+            <label class="text-xs text-muted-foreground">{{
+              t('settings.password_current')
+            }}</label>
             <input
               v-model="pwForm.current"
               type="password"
@@ -187,7 +188,9 @@ function setLocale(code: string) {
           </div>
 
           <div class="flex flex-col gap-1">
-            <label class="text-xs text-muted-foreground">{{ t('settings.password_confirm') }}</label>
+            <label class="text-xs text-muted-foreground">{{
+              t('settings.password_confirm')
+            }}</label>
             <input
               v-model="pwForm.confirm"
               type="password"
@@ -229,7 +232,6 @@ function setLocale(code: string) {
           {{ t('settings.reset') }}
         </button>
       </div>
-
     </div>
   </div>
 </template>

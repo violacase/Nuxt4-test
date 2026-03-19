@@ -35,7 +35,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const newHash = await bcrypt.hash(body.newPassword, 12)
-  await db.update(users).set({ passwordHash: newHash, updatedAt: new Date() }).where(eq(users.id, user.id))
+  await db
+    .update(users)
+    .set({ passwordHash: newHash, updatedAt: new Date() })
+    .where(eq(users.id, user.id))
 
   return { ok: true }
 })
