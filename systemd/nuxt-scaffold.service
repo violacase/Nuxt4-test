@@ -1,28 +1,30 @@
 # Systemd service unit — alternative to PM2
+# Before using: replace YOUR_UNIX_USER, YOUR_PROJECT_PATH, and YOUR_PROJECT_NAME,
+# or run bash setup.sh which handles this automatically.
 #
 # Setup:
-#   sudo cp systemd/nuxt-scaffold.service /etc/systemd/system/
+#   sudo cp systemd/nuxt-scaffold.service /etc/systemd/system/YOUR_PROJECT_NAME.service
 #   sudo systemctl daemon-reload
-#   sudo systemctl enable --now nuxt-scaffold
-#   sudo systemctl status nuxt-scaffold
+#   sudo systemctl enable --now YOUR_PROJECT_NAME
+#   sudo systemctl status YOUR_PROJECT_NAME
 
 [Unit]
-Description=Nuxt Scaffold (Nitro)
+Description=YOUR_PROJECT_NAME (H3)
 After=network.target postgresql.service
 
 [Service]
 Type=simple
-User=kees
-WorkingDirectory=/mnt/WebDev/Projects/Nuxt_scaffold
-EnvironmentFile=/mnt/WebDev/Projects/Nuxt_scaffold/.env
+User=YOUR_UNIX_USER
+WorkingDirectory=YOUR_PROJECT_PATH
+EnvironmentFile=YOUR_PROJECT_PATH/.env
 ExecStart=/usr/bin/node .output/server/index.mjs
 Restart=on-failure
 RestartSec=5
 
-# Logging — view with: journalctl -u nuxt-scaffold -f
+# Logging — view with: journalctl -u YOUR_PROJECT_NAME -f
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=nuxt-scaffold
+SyslogIdentifier=YOUR_PROJECT_NAME
 
 [Install]
 WantedBy=multi-user.target

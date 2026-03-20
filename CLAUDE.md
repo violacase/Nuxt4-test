@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Stack
-Nuxt 4 · GraphQL Yoga (`/api/graphql`) · Drizzle ORM + postgres.js · reka-ui + shadcn-vue · Tailwind v4 (no config file) · Pinia · nuxt-auth-utils · @nuxtjs/i18n · GraphQL Codegen
+Vue 3 + Vite SPA · H3 standalone server · GraphQL Yoga (`/api/graphql`) · Drizzle ORM + postgres.js · reka-ui + shadcn-vue · Tailwind v4 (no config file) · Pinia · iron-session · vue-i18n · GraphQL Codegen
 
 ## E2E Type Chain — never break this
 `Drizzle schema → GQL schema → Codegen → Vue` — `app/types/gql.ts` is auto-generated, never edit manually. Never write manual types for DB or GQL responses.
@@ -26,7 +26,7 @@ Nuxt 4 · GraphQL Yoga (`/api/graphql`) · Drizzle ORM + postgres.js · reka-ui 
 - Never create `tailwind.config.js` — Tailwind v4 is CSS-only
 - Always use `cn()` from `~/lib/utils` for class merging
 - Always wrap Quill in `<ClientOnly>`, sanitize HTML before storing (`sanitize-html`)
-- Always protect server routes/resolvers with `requireUserSession(event)`
+- Always protect server routes/resolvers with `requireSession(event)`
 - Always namespace localStorage keys with `settings:`
 - Always run `npm run codegen` after changing a GQL schema file
 - Always run `npm run db:generate` after changing a Drizzle schema file
@@ -36,7 +36,7 @@ Nuxt 4 · GraphQL Yoga (`/api/graphql`) · Drizzle ORM + postgres.js · reka-ui 
 
 ## Auth
 - Session: `const { user, loggedIn } = useUserSession()`
-- Server guard: `await requireUserSession(event)`
+- Server guard: `await requireSession(event)`
 
 ## Colors (semantic only)
 `bg-background` · `bg-card` · `text-foreground` · `text-muted-foreground` · `border-border` · `bg-primary` / `text-primary` (action blue) · `text-primary-foreground` · `bg-accent` · `text-destructive` · `ring-ring/30`
@@ -53,7 +53,7 @@ Nuxt 4 · GraphQL Yoga (`/api/graphql`) · Drizzle ORM + postgres.js · reka-ui 
 
 ## Commands
 ```bash
-npm run dev          # Nuxt + codegen:watch
+npm run dev          # Vite + H3 + codegen:watch (combined)
 npm run build        # lint → codegen → typecheck → build
 npm run codegen      # generate GQL types
 npm run db:generate  # generate Drizzle migration
