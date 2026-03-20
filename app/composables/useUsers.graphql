@@ -1,0 +1,10 @@
+query ListUsers {
+  listUsers {
+    id
+    email
+    name
+    avatarUrl
+    role
+    createdAt
+  }
+}

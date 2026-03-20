@@ -53,7 +53,7 @@ function setLocale(code: string) {
 </script>
 
 <template>
-  <div class="p-6 max-w-lg">
+  <div class="p-6 max-w-4xl">
     <h1 class="font-serif text-3xl text-foreground">{{ t('settings.title') }}</h1>
 
     <div class="mt-8 flex flex-col gap-6">
@@ -232,6 +232,9 @@ function setLocale(code: string) {
           {{ t('settings.reset') }}
         </button>
       </div>
+
+      <!-- ── Users ───────────────────────────────────────────────── -->
+      <UserTable />
     </div>
   </div>
 </template>
