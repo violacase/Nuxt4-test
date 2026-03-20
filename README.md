@@ -1,6 +1,6 @@
-# Nuxt 4 Scaffold
+# Vue3-test
 
-A production-ready full-stack scaffold with an end-to-end type chain from Postgres through to Vue components.
+A production-ready full-stack scaffold with an end-to-end type chain from Postgres through to Vue components, and a complete authentication system (email/password + GitHub OAuth).
 
 ## Stack
 
@@ -12,8 +12,8 @@ A production-ready full-stack scaffold with an end-to-end type chain from Postgr
 | Database | PostgreSQL |
 | UI | reka-ui + shadcn-vue + Tailwind CSS v4 |
 | State | Pinia + VueUse |
-| i18n | @nuxtjs/i18n |
-| Auth | nuxt-auth-utils (OAuth) |
+| i18n | @nuxtjs/i18n (EN + NL) |
+| Auth | nuxt-auth-utils — email/password (bcryptjs) + GitHub OAuth |
 | Type Safety | GraphQL Code Generator + strict TypeScript |
 | Linting | ESLint + Prettier |
 
@@ -25,89 +25,144 @@ Postgres → Drizzle schema → GraphQL schema → Codegen → Vue components
 
 Never write manual types for DB entities or GQL responses — they are always derived automatically.
 
+## Authentication
+
+Two methods are supported and can be used on the same account:
+
+### Email / Password
+- Register at `/register` — name, email, password (min 8 chars)
+- Login at `/login`
+- Passwords hashed with bcryptjs (cost 12)
+
+### GitHub OAuth
+1. Create a GitHub OAuth App at `github.com/settings/developers`
+   - **Homepage URL:** `http://localhost:3332`
+   - **Callback URL:** `http://localhost:3332/auth/github`
+2. Add credentials to `.env`:
+   ```
+   NUXT_OAUTH_GITHUB_CLIENT_ID=...
+   NUXT_OAUTH_GITHUB_CLIENT_SECRET=...
+   ```
+3. Restart `npm run dev`
+
+Both methods share the same `users` table. OAuth identities are stored in `oauth_accounts` (composite PK on `provider` + `provider_user_id`), linked to users by FK. A user who signs up via email can later link a GitHub account and vice versa.
+
 ## Quick Start
 
 ```bash
-# 1. Clone (or use this repo as a GitHub Template)
-git clone https://github.com/violacase/nuxt-scaffold.git my-app
-cd my-app
-
-# 2. Install dependencies
+# 1. Install dependencies
 npm install
 
-# 3. Configure environment
+# 2. Configure environment
 cp .env.example .env
-# Edit .env — set DATABASE_URL, NUXT_SESSION_PASSWORD, OAuth keys
+# Edit .env — set DATABASE_URL, NUXT_SESSION_PASSWORD, and OAuth keys
 
-# 4. Set up the database
+# 3. Set up the database
 npm run db:setup
 
-# 5. Start dev server + codegen watch
+# 4. Start dev server + codegen watch
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3332](http://localhost:3332).
 
 ## Common Commands
 
 ```bash
-npm run dev              # Nuxt dev server + codegen:watch
+npm run dev              # Nuxt dev server (port 3332) + codegen:watch
 npm run build            # lint → codegen → typecheck → nuxt build
-npm run start            # Run production build
+npm run preview          # Preview production build on port 3333
+npm run start            # Run production build on port 3333
 
-npm run codegen          # Generate GQL types from live dev server
-npm run codegen:ci       # Generate GQL types from committed schema.graphql (no server needed)
-npm run codegen:schema   # Regenerate schema.graphql from live dev server — run after schema changes
+npm run codegen          # Generate GQL types (requires running dev server)
+npm run codegen:ci       # Generate GQL types from schema.graphql (no server needed)
+npm run codegen:schema   # Regenerate schema.graphql from live server — run after schema changes
+npm run codegen:watch    # Run codegen in watch mode
 
-npm run db:setup         # Generate + run migrations
-npm run db:generate      # Generate Drizzle migration
+npm run db:setup         # db:generate + db:migrate
+npm run db:generate      # Generate Drizzle migration from schema changes
 npm run db:migrate       # Run pending migrations
 npm run db:studio        # Open Drizzle Studio
 
 npm run lint             # Lint + auto-fix
-npm run typecheck        # Run vue-tsc
+npm run lint:check       # Lint without fixing (used in build)
+npm run typecheck        # Run vue-tsc type check
 ```
 
 ## Project Structure
 
 ```
 /
-├── app/                   ← Nuxt srcDir (Vue app)
+├── app/                   ← Nuxt srcDir (Vue app — ~ alias)
+│   ├── assets/css/        ← Tailwind entry point (main.css)
 │   ├── components/
 │   │   ├── ui/            ← shadcn-vue components
-│   │   └── editor/        ← Quill editor components
-│   ├── composables/       ← useXxx() — .graphql files live here too
-│   ├── pages/             ← File-based routing
-│   ├── stores/            ← Pinia stores
+│   │   └── UserMenu.vue   ← Avatar dropdown (user name, role, logout)
+│   ├── composables/
+│   │   └── useAuth.ts     ← login, register, logout, GitHub OAuth
+│   ├── pages/
+│   │   ├── index.vue      ← Landing page
+│   │   ├── login.vue      ← Email/password + GitHub OAuth login
+│   │   └── register.vue   ← Email/password registration
+│   ├── stores/            ← Pinia stores (settings, etc.)
 │   └── types/gql.ts       ← AUTO-GENERATED — never edit
+├── i18n/
+│   └── locales/           ← en.json, nl.json
 ├── server/
+│   ├── api/auth/
+│   │   ├── login.post.ts      ← POST /api/auth/login
+│   │   ├── register.post.ts   ← POST /api/auth/register
+│   │   └── logout.post.ts     ← POST /api/auth/logout
+│   ├── routes/auth/
+│   │   └── github.get.ts      ← GitHub OAuth callback (/auth/github)
+│   ├── types/auth.d.ts        ← nuxt-auth-utils User interface augmentation
 │   ├── graphql/
 │   │   ├── schema/        ← GraphQL type definitions
 │   │   └── resolvers/     ← Resolvers (one file per domain)
 │   └── db/
-│       ├── schema/        ← Drizzle table definitions
+│       ├── schema/
+│       │   └── users.ts   ← users + oauth_accounts tables
 │       └── migrations/    ← Generated by drizzle-kit
 ├── schema.graphql         ← Committed SDL — keep updated via codegen:schema
-├── codegen.ts             ← Dev codegen (reads live server)
-├── codegen.ci.ts          ← CI codegen (reads schema.graphql)
-└── codegen.schema.ts      ← Regenerates schema.graphql from live server
+├── codegen.ts             ← Dev codegen config
+├── codegen.ci.ts          ← CI codegen config (reads schema.graphql)
+└── codegen.schema.ts      ← Regenerates schema.graphql
 ```
+
+## Database Schema
+
+### `users`
+| Column | Type | Notes |
+|---|---|---|
+| `id` | uuid PK | auto-generated |
+| `email` | text unique | |
+| `name` | text | |
+| `avatar_url` | text nullable | |
+| `email_verified` | boolean | default false |
+| `password_hash` | text nullable | null for OAuth-only users |
+| `role` | enum | admin / member / guest (default: member) |
+| `created_at` / `updated_at` | timestamp | |
+
+### `oauth_accounts`
+| Column | Type | Notes |
+|---|---|---|
+| `provider` + `provider_user_id` | composite PK | e.g. `github` + `12345` |
+| `user_id` | uuid FK → users.id | cascade delete |
+| `email` | text nullable | email from provider |
+| `access_token` / `refresh_token` | text nullable | |
+| `expires_at` | timestamp nullable | |
 
 ## Adding a Feature
 
-A typical feature touches these layers in order:
-
 1. **Drizzle schema** — add/modify a table in `server/db/schema/`
-2. `npm run db:generate && npm run db:migrate`
+2. `npm run db:setup`
 3. **GraphQL schema** — add types/queries/mutations in `server/graphql/schema/`
 4. **Resolvers** — implement in `server/graphql/resolvers/`
-5. Start dev server and run `npm run codegen:schema` → commit `schema.graphql`
+5. With dev server running: `npm run codegen:schema` → commit `schema.graphql`
 6. **GQL operation** — add `.graphql` file in `app/composables/` → types auto-generated
 7. **Vue component / page** — use fully typed composable
 
 ## Claude Code Skills
-
-This scaffold includes custom Claude Code skills to speed up development:
 
 | Skill | Use when |
 |---|---|
@@ -120,58 +175,6 @@ This scaffold includes custom Claude Code skills to speed up development:
 | `/new-settings-store` | Create a settings store persisted to localStorage |
 | `/new-composable` | Create a reusable composable |
 
-## Deploying Locally with PM2 + Nginx
-
-### Prerequisites
-
-- Node.js ≥ 22
-- PM2 installed globally: `npm install -g pm2`
-- Nginx installed
-
-### 1. Build
-
-```bash
-npm run build
-```
-
-### 2. Start with PM2
-
-Edit `ecosystem.config.cjs` — set the `env_file` path to your `.env` file, then:
-
-```bash
-pm2 start ecosystem.config.cjs
-pm2 save && pm2 startup   # run the printed sudo command
-```
-
-### 3. Configure Nginx
-
-```bash
-echo "127.0.0.1 nuxt-scaffold.local" | sudo tee -a /etc/hosts
-sudo cp nginx/nuxt-scaffold.conf /etc/nginx/sites-available/nuxt-scaffold.local
-sudo ln -s /etc/nginx/sites-available/nuxt-scaffold.local /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-Open [http://nuxt-scaffold.local](http://nuxt-scaffold.local).
-
-### Systemd alternative
-
-A `systemd/nuxt-scaffold.service` unit file is included as an alternative to PM2.
-
-## Keeping `schema.graphql` in Sync
-
-`schema.graphql` is the committed SDL that CI uses for codegen (no live server needed).
-
-**After every `server/graphql/schema/*.ts` change:**
-
-```bash
-# With dev server running:
-npm run codegen:schema
-
-# Commit the updated schema alongside your schema changes
-git add schema.graphql
-```
-
 ## Environment Variables
 
 Copy `.env.example` to `.env` and fill in the values:
@@ -179,11 +182,27 @@ Copy `.env.example` to `.env` and fill in the values:
 | Variable | Description |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
-| `NUXT_SESSION_PASSWORD` | Min 32 chars — encrypts sessions |
+| `NUXT_SESSION_PASSWORD` | Min 32 chars — encrypts session cookies |
 | `NUXT_OAUTH_GITHUB_CLIENT_ID` | GitHub OAuth app client ID |
 | `NUXT_OAUTH_GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret |
 | `NUXT_PUBLIC_APP_NAME` | Public app name |
+| `PORT` | Production server port (default 3333) |
+
+## Deployment (PM2 + Nginx)
+
+```bash
+# Build
+npm run build
+
+# Start with PM2
+pm2 start ecosystem.config.cjs
+pm2 save && pm2 startup
+
+# Nginx: proxy port 3333
+```
+
+For GitHub OAuth in production, create a separate OAuth App with your production domain as the callback URL.
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+MIT

@@ -1,43 +1,63 @@
-<!-- pages/index.vue -->
 <script setup lang="ts">
-const settings = useSettingsStore()
+import { ArrowRight } from 'lucide-vue-next'
+
+const { t } = useI18n()
+
+useHead({ title: 'Vue3-test — Full-stack scaffold' })
+
+const stack = [
+  'Vue 3',
+  'GraphQL Yoga',
+  'Drizzle ORM',
+  'Tailwind v4',
+  'Pinia',
+  'reka-ui',
+  'TypeScript',
+]
 </script>
 
 <template>
-  <main class="flex min-h-screen flex-col items-center justify-center gap-6 p-8">
-    <div class="flex flex-col items-center gap-2 text-center">
-      <h1 class="font-display text-4xl font-normal text-[--color-text-primary]">Nuxt Scaffold</h1>
-      <p class="font-sans text-base text-[--color-text-muted]">
-        Stack is wired up. Start building.
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <div class="flex flex-1 flex-col items-center justify-center px-6 py-24">
+    <div class="max-w-2xl text-center">
+      <!-- Eyebrow -->
+      <p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+        {{ t('landing.eyebrow') }}
       </p>
+
+      <!-- Headline -->
+      <h1 class="mt-6 font-serif text-5xl leading-[1.1] tracking-tight text-foreground">
+        {{ t('landing.headline') }}<br /><em>{{ t('landing.headlineEm') }}</em>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted-foreground">
+        {{ t('landing.subtitle') }}
+      </p>
+
+      <!-- CTA -->
+      <div class="mt-10 flex items-center justify-center">
+        <a
+          href="https://github.com/violacase/Vue3-test"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-6 text-base text-primary-foreground transition-colors duration-150 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring/30"
+        >
+          {{ t('landing.cta') }}
+          <ArrowRight class="size-4" />
+        </a>
+      </div>
     </div>
 
-    <div
-      class="flex items-center gap-3 rounded-md border border-[--color-border] bg-[--color-surface] px-4 py-3 text-sm text-[--color-text-secondary]"
-    >
-      <span class="font-mono text-xs text-[--color-text-muted]">theme</span>
-      <span class="font-sans font-medium text-[--color-text-primary]">{{ settings.theme }}</span>
-      <button
-        class="rounded border border-[--color-border] bg-[--color-canvas] px-3 py-1 font-sans text-xs text-[--color-text-secondary] transition-colors hover:bg-[--color-surface-hover]"
-        @click="settings.toggleTheme()"
+    <!-- Stack chips -->
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
+      <span
+        v-for="tech in stack"
+        :key="tech"
+        class="rounded-sm border border-border bg-card px-3 py-1 font-mono text-xs text-muted-foreground"
       >
-        Toggle dark mode
-      </button>
+        {{ tech }}
+      </span>
     </div>
-
-    <div class="grid grid-cols-3 gap-4 text-center text-xs text-[--color-text-muted]">
-      <div class="rounded border border-[--color-border] bg-[--color-surface] px-4 py-3">
-        <div class="font-mono text-[--color-accent]">GraphQL</div>
-        <div class="mt-1">/api/graphql</div>
-      </div>
-      <div class="rounded border border-[--color-border] bg-[--color-surface] px-4 py-3">
-        <div class="font-mono text-[--color-accent]">Drizzle</div>
-        <div class="mt-1">npm run db:studio</div>
-      </div>
-      <div class="rounded border border-[--color-border] bg-[--color-surface] px-4 py-3">
-        <div class="font-mono text-[--color-accent]">Codegen</div>
-        <div class="mt-1">npm run codegen:watch</div>
-      </div>
-    </div>
-  </main>
+  </div>
 </template>

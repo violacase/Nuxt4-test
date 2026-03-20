@@ -1,3 +1,4 @@
+// Before using: run bash setup.sh or manually replace YOUR_PROJECT_NAME and YOUR_PROJECT_PATH
 // PM2 process config — .cjs because package.json has "type": "module"
 // Usage:
 //   pm2 start ecosystem.config.cjs
@@ -8,12 +9,12 @@
 module.exports = {
   apps: [
     {
-      name: 'nuxt-scaffold',
+      name: 'YOUR_PROJECT_NAME',
       script: '.output/server/index.mjs',
 
       // Load environment from .env file (PM2 6+)
       // Use the absolute path to your .env file:
-      env_file: '/mnt/WebDev/Projects/Nuxt_scaffold/.env',
+      env_file: 'YOUR_PROJECT_PATH/.env',
 
       // Fallback inline env (override in .env file instead)
       env: {

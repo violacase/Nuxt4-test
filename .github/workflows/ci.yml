@@ -30,8 +30,5 @@ jobs:
       - name: Generate types from schema
         run: npm run codegen:ci
 
-      - name: Prepare Nuxt
-        run: npx nuxi prepare
-
       - name: Typecheck
         run: npm run typecheck

@@ -1,0 +1,95 @@
+{
+  "app": {
+    "name": "Vue3-test"
+  },
+  "landing": {
+    "eyebrow": "Full-stack · Vue 3",
+    "headline": "Build something",
+    "headlineEm": "worth shipping.",
+    "subtitle": "A production-ready scaffold wired with GraphQL Yoga, Drizzle ORM, Tailwind CSS v4, Pinia, and full end-to-end type safety. Skip the setup. Start building.",
+    "cta": "View on GitHub",
+    "dbConnected": "Database connected — postgresql{'@'}localhost:5432",
+    "dbUnreachable": "Database unreachable",
+    "footer": "Vue3-test — MIT License"
+  },
+  "nav": {
+    "home": "Home",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "auth": {
+    "loginLabel": "Log in",
+    "logout": "Log out",
+    "loginWith": "Log in with {provider}",
+    "loggedInAs": "Logged in as {name}",
+    "or": "or",
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "github": "Continue with GitHub",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create one"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Get started for free",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you{'@'}example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Min. 8 characters",
+      "passwordHint": "Must be at least 8 characters"
+    },
+    "error": {
+      "generic": "Something went wrong. Please try again.",
+      "oauth": "GitHub sign-in failed. Please try again."
+    },
+    "userMenu": {
+      "open": "Open user menu"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "language": "Language",
+    "layout": "Layout",
+    "layout_compact": "Compact",
+    "layout_comfortable": "Comfortable",
+    "reset": "Reset to defaults",
+    "account": "Account",
+    "account_name": "Name",
+    "account_email": "Email",
+    "account_role": "Role",
+    "password_section": "Change password",
+    "password_current": "Current password",
+    "password_new": "New password",
+    "password_confirm": "Confirm new password",
+    "password_save": "Update password",
+    "password_saving": "Updating…",
+    "password_success": "Password updated",
+    "password_mismatch": "Passwords do not match",
+    "password_no_password": "Your account uses GitHub sign-in — no password to change"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "empty": "No items found",
+    "confirm": "Are you sure?"
+  }
+}

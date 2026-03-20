@@ -2,14 +2,15 @@
 // Single Postgres connection — imported by all resolvers and server routes
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import * as schema from './schema'
+import * as schema from './schema/index.js'
 
 // Prevent multiple connections in dev (hot reload)
 const globalForDb = globalThis as unknown as { db: ReturnType<typeof drizzle> }
 
 function createDb() {
-  const config = useRuntimeConfig()
-  const client = postgres(config.databaseUrl as string, {
+  const databaseUrl = process.env.DATABASE_URL
+  if (!databaseUrl) throw new Error('DATABASE_URL environment variable is required')
+  const client = postgres(databaseUrl, {
     max: 10, // connection pool size
     idle_timeout: 30, // seconds before idle connection is closed
     connect_timeout: 10,

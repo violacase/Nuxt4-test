@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# setup.sh — Nuxt 4 Scaffold: Interactive Project Setup
+# setup.sh — Vue 3 + H3 Scaffold: Interactive Project Setup
 # =============================================================================
 # Run once after cloning to configure this project for local development.
 # Handles: .env creation, package.json naming, .claude/mcp.json, npm install,
@@ -25,7 +25,7 @@ fi
 banner() {
   printf '\n'
   printf "  ${BLU}${BOLD}╔══════════════════════════════════════════════════════╗${RESET}\n"
-  printf "  ${BLU}${BOLD}║       Nuxt 4 Scaffold — Project Setup                ║${RESET}\n"
+  printf "  ${BLU}${BOLD}║       Vue 3 + H3 Scaffold — Project Setup            ║${RESET}\n"
   printf "  ${BLU}${BOLD}╚══════════════════════════════════════════════════════╝${RESET}\n"
   printf '\n'
   printf "  ${DIM}Press Enter to accept the default shown in [brackets].${RESET}\n"
@@ -90,7 +90,7 @@ slugify() {
     | tr ' _' '-' \
     | tr -cd 'a-z0-9-' \
     | sed 's/^-*//;s/-*$//')
-  printf '%s' "${result:-my-nuxt-app}"
+  printf '%s' "${result:-my-app}"
 }
 
 gen_password() {
@@ -100,8 +100,8 @@ gen_password() {
 # ── Preflight checks ──────────────────────────────────────────────────────────
 
 preflight() {
-  [[ -f "nuxt.config.ts" && -f "package.json" ]] \
-    || abort "Run this script from the project root (where nuxt.config.ts lives)."
+  [[ -f "vite.config.ts" && -f "package.json" ]] \
+    || abort "Run this script from the project root (where vite.config.ts lives)."
 
   command -v node >/dev/null 2>&1 \
     || abort "Node.js is not installed or not in PATH."
@@ -119,7 +119,7 @@ write_env() {
     printf '# ─── Database ──────────────────────────────────────────────────\n'
     printf 'DATABASE_URL=%s\n'                    "$DB_URL"
     printf '\n'
-    printf '# ─── Nuxt Auth Utils ───────────────────────────────────────────\n'
+    printf '# ─── Session ───────────────────────────────────────────────────\n'
     printf '# Min 32 characters — used to encrypt sessions\n'
     printf 'NUXT_SESSION_PASSWORD=%s\n'           "$SESSION_PASSWORD"
     printf '\n'
@@ -147,7 +147,8 @@ EOF
 update_mcp_url() {
   DB_URL="$DB_URL" node << 'EOF'
 const fs = require('fs')
-const mcp = JSON.parse(fs.readFileSync('.claude/mcp.json', 'utf8'))
+const src = fs.existsSync('.claude/mcp.json') ? '.claude/mcp.json' : '.claude/mcp.json.example'
+const mcp = JSON.parse(fs.readFileSync(src, 'utf8'))
 mcp.mcpServers.postgres.args[2] = process.env.DB_URL
 fs.writeFileSync('.claude/mcp.json', JSON.stringify(mcp, null, 2) + '\n')
 EOF
@@ -172,7 +173,7 @@ main() {
   # ── Inputs: Project ─────────────────────────────────────────────────────────
   section "Project"
 
-  ask "Project slug  (used in package.json)" "my-nuxt-app"
+  ask "Project slug  (used in package.json)" "my-app"
   PROJECT_SLUG=$(slugify "$ANSWER")
   printf "      ${DIM}→ normalised to: %s${RESET}\n" "$PROJECT_SLUG"
 
@@ -294,10 +295,9 @@ main() {
   printf "  ${GRN}${BOLD}║  ✓  Setup complete — ready to develop                ║${RESET}\n"
   printf "  ${GRN}${BOLD}╚══════════════════════════════════════════════════════╝${RESET}\n"
   blank
-  printf "  Start both processes in separate terminals:\n"
+  printf "  Start the dev server:\n"
   blank
-  printf "  ${CYN}npm run dev${RESET}               ${DIM}# Nuxt dev server${RESET}\n"
-  printf "  ${CYN}npm run codegen:watch${RESET}     ${DIM}# GQL type generation (watch mode)${RESET}\n"
+  printf "  ${CYN}npm run dev${RESET}               ${DIM}# Vite + H3 + codegen watch${RESET}\n"
   blank
   printf "  Add shadcn-vue components as you need them:\n"
   blank

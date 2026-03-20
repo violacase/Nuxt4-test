@@ -1,0 +1,11 @@
+# type(scope)?: subject  ← max 72 chars
+# │     │        └── imperative mood, no period
+# │     └── optional: auth|db|ui|api|store|i18n|graphql|...
+# └── feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert
+#
+# Body (optional) — explain WHY, not WHAT:
+#
+#
+# Footer (optional):
+# Closes #123
+# BREAKING CHANGE: description
