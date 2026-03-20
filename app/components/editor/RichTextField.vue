@@ -51,8 +51,7 @@ const quillOptions = computed(() => ({
 
 <template>
   <div class="rich-text-field w-full">
-    <ClientOnly>
-      <!-- Import Quill snow theme CSS in your main.css or here -->
+    <Suspense>
       <QuillEditor
         v-model:content="content"
         content-type="html"
@@ -66,6 +65,6 @@ const quillOptions = computed(() => ({
           :style="{ minHeight }"
         />
       </template>
-    </ClientOnly>
+    </Suspense>
   </div>
 </template>

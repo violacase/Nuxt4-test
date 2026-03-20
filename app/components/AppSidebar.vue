@@ -52,7 +52,7 @@ function isActive(href: string) {
       "
     >
       <!-- Brand -->
-      <NuxtLink
+      <RouterLink
         v-if="!isCollapsed"
         to="/"
         class="flex items-center gap-2 min-w-0 focus:outline-none focus:ring-2 focus:ring-ring/30 rounded-sm"
@@ -61,7 +61,7 @@ function isActive(href: string) {
           <span class="text-xs font-medium text-primary-foreground">N</span>
         </div>
         <span class="text-sm font-medium text-foreground truncate">Vue3-test</span>
-      </NuxtLink>
+      </RouterLink>
 
       <!-- Collapse toggle -->
       <button
@@ -85,7 +85,7 @@ function isActive(href: string) {
     <nav class="flex-1 overflow-y-auto overflow-x-hidden py-3">
       <ul class="flex flex-col gap-0.5 px-2">
         <li v-for="item in navItems" :key="item.href">
-          <NuxtLink
+          <RouterLink
             :to="item.href"
             :class="
               cn(
@@ -132,7 +132,7 @@ function isActive(href: string) {
             >
               {{ item.label }}
             </div>
-          </NuxtLink>
+          </RouterLink>
         </li>
       </ul>
     </nav>

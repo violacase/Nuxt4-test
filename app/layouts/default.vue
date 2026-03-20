@@ -39,5 +39,6 @@ const pageTitle = computed(() => {
         </main>
       </div>
     </div>
+    <AppFooter />
   </div>
 </template>

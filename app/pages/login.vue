@@ -34,22 +34,19 @@ const oauthError = computed(() => route.query.error === 'oauth')
   <div class="flex min-h-screen flex-col bg-background">
     <!-- Top bar -->
     <div class="flex h-14 shrink-0 items-center justify-between px-6">
-      <NuxtLink
+      <RouterLink
         to="/"
         class="font-mono text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
       >
         Vue3-test
-      </NuxtLink>
+      </RouterLink>
       <button
         class="flex h-8 items-center gap-2 rounded-md px-3 text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
         :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
         @click="settings.toggleTheme()"
       >
-        <ClientOnly>
-          <Sun v-if="settings.theme === 'dark'" class="size-4" />
-          <Moon v-else class="size-4" />
-          <template #fallback><Moon class="size-4" /></template>
-        </ClientOnly>
+        <Sun v-if="settings.theme === 'dark'" class="size-4" />
+        <Moon v-else class="size-4" />
       </button>
     </div>
 
@@ -211,12 +208,12 @@ const oauthError = computed(() => route.query.error === 'oauth')
       <!-- Register link -->
       <p class="mt-6 text-center text-sm text-muted-foreground">
         {{ t('auth.login.noAccount') }}
-        <NuxtLink
+        <RouterLink
           to="/register"
           class="text-primary underline-offset-4 transition-colors duration-150 hover:underline"
         >
           {{ t('auth.login.registerLink') }}
-        </NuxtLink>
+        </RouterLink>
       </p>
     </main>
   </div>

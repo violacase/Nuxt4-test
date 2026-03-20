@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { ArrowRight, CircleCheck, CircleX } from 'lucide-vue-next'
+import { ArrowRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
 
 useHead({ title: 'Vue3-test — Full-stack scaffold' })
-
-const health = ref<{ db: boolean } | null>(null)
-onMounted(async () => {
-  const res = await fetch('/api/health')
-  if (res.ok) health.value = (await res.json()) as { db: boolean }
-})
 
 const stack = [
   'Vue 3',
@@ -55,22 +49,6 @@ const stack = [
       </div>
     </div>
 
-    <!-- DB status -->
-    <div
-      class="mt-12 flex items-center gap-2 rounded-sm border px-4 py-2 text-sm transition-colors duration-150"
-      :class="
-        health?.db
-          ? 'border-success/30 bg-success-subtle text-success'
-          : 'border-destructive/30 bg-danger-subtle text-destructive'
-      "
-    >
-      <CircleCheck v-if="health?.db" class="size-4 shrink-0" />
-      <CircleX v-else class="size-4 shrink-0" />
-      <span class="font-mono">
-        {{ health?.db ? t('landing.dbConnected') : t('landing.dbUnreachable') }}
-      </span>
-    </div>
-
     <!-- Stack chips -->
     <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
       <span
@@ -82,12 +60,4 @@ const stack = [
       </span>
     </div>
   </div>
-
-  <!-- ── Footer ─────────────────────────────────────────────── -->
-  <footer class="border-t border-border">
-    <div class="mx-auto flex h-12 max-w-7xl items-center justify-between px-6">
-      <p class="text-xs text-muted-foreground">{{ t('landing.footer') }}</p>
-      <p class="text-xs text-muted-foreground">violacase</p>
-    </div>
-  </footer>
 </template>
