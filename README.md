@@ -1,20 +1,63 @@
-# Vue3-test
+# Vue 3 + H3 Scaffold
 
 A production-ready full-stack scaffold with an end-to-end type chain from Postgres through to Vue components, and a complete authentication system (email/password + GitHub OAuth).
+
+## Using this template
+
+### 1 — Create your repo
+
+Click **Use this template → Create a new repository** on GitHub, then clone your new repo locally.
+
+### 2 — Run the setup script
+
+```bash
+bash setup.sh
+```
+
+The script is interactive and handles everything in one pass:
+
+| Step | What happens |
+|---|---|
+| Preflight | Confirms you're in the right directory and Node ≥ 22 is installed |
+| Project slug | Sets `package.json` `name`; used as default DB name |
+| Display name | Written to `.env` as `NUXT_PUBLIC_APP_NAME` |
+| Database URL | PostgreSQL connection string — defaults to `localhost:5432/<slug>` |
+| Session password | Auto-generated (32 random bytes, base64url) |
+| GitHub OAuth | Optional — press Enter to skip |
+| Google OAuth | Optional — press Enter to skip |
+| Confirm | Shows a summary; nothing is written until you confirm |
+| Write files | Creates `.env`, updates `package.json`, writes `.claude/mcp.json` |
+| `npm install` | Optional — runs immediately or skip and do it later |
+| DB migration | Optional — runs `db:generate` + `db:migrate` if Postgres is reachable |
+
+### 3 — Start developing
+
+```bash
+npm run dev          # Vite (port 5173) + H3 server (port 3333) + codegen watch
+```
+
+### Claude Code (optional)
+
+`.claude/settings.json` and all skills are included in the template — Claude Code is ready to use immediately after cloning. The setup script also writes `.claude/mcp.json` with your DB URL so the Postgres MCP server connects automatically.
+
+If you need to rotate the MCP connection later, edit `.claude/mcp.json` directly (it is gitignored).
+
+---
 
 ## Stack
 
 | Layer | Technology |
 |---|---|
-| Framework | Nuxt 4 (full-stack, one repo) |
-| GraphQL Server | GraphQL Yoga (Nitro route at `/api/graphql`) |
+| Frontend | Vue 3 + Vite SPA |
+| Server | H3 standalone (separate process, port 3333) |
+| GraphQL | GraphQL Yoga at `/api/graphql` |
 | ORM | Drizzle ORM + postgres.js |
 | Database | PostgreSQL |
 | UI | reka-ui + shadcn-vue + Tailwind CSS v4 |
 | State | Pinia + VueUse |
-| i18n | @nuxtjs/i18n (EN + NL) |
-| Auth | nuxt-auth-utils — email/password (bcryptjs) + GitHub OAuth |
-| Type Safety | GraphQL Code Generator + strict TypeScript |
+| i18n | vue-i18n v11 (EN + NL) |
+| Auth | iron-session — email/password (bcryptjs) + GitHub OAuth |
+| Type safety | GraphQL Code Generator + strict TypeScript |
 | Linting | ESLint + Prettier |
 
 ## E2E Type Chain
@@ -36,8 +79,8 @@ Two methods are supported and can be used on the same account:
 
 ### GitHub OAuth
 1. Create a GitHub OAuth App at `github.com/settings/developers`
-   - **Homepage URL:** `http://localhost:3332`
-   - **Callback URL:** `http://localhost:3332/auth/github`
+   - **Homepage URL:** `http://localhost:5173`
+   - **Callback URL:** `http://localhost:3333/auth/github`
 2. Add credentials to `.env`:
    ```
    NUXT_OAUTH_GITHUB_CLIENT_ID=...
@@ -47,36 +90,16 @@ Two methods are supported and can be used on the same account:
 
 Both methods share the same `users` table. OAuth identities are stored in `oauth_accounts` (composite PK on `provider` + `provider_user_id`), linked to users by FK. A user who signs up via email can later link a GitHub account and vice versa.
 
-## Quick Start
-
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Configure environment
-cp .env.example .env
-# Edit .env — set DATABASE_URL, NUXT_SESSION_PASSWORD, and OAuth keys
-
-# 3. Set up the database
-npm run db:setup
-
-# 4. Start dev server + codegen watch
-npm run dev
-```
-
-Open [http://localhost:3332](http://localhost:3332).
-
 ## Common Commands
 
 ```bash
-npm run dev              # Nuxt dev server (port 3332) + codegen:watch
-npm run build            # lint → codegen → typecheck → nuxt build
-npm run preview          # Preview production build on port 3333
-npm run start            # Run production build on port 3333
+npm run dev              # Vite + H3 server + codegen watch (all in one)
+npm run build            # lint → codegen → typecheck → build
+npm run preview          # Preview production build
 
 npm run codegen          # Generate GQL types (requires running dev server)
 npm run codegen:ci       # Generate GQL types from schema.graphql (no server needed)
-npm run codegen:schema   # Regenerate schema.graphql from live server — run after schema changes
+npm run codegen:schema   # Regenerate schema.graphql from live server
 npm run codegen:watch    # Run codegen in watch mode
 
 npm run db:setup         # db:generate + db:migrate
@@ -85,7 +108,7 @@ npm run db:migrate       # Run pending migrations
 npm run db:studio        # Open Drizzle Studio
 
 npm run lint             # Lint + auto-fix
-npm run lint:check       # Lint without fixing (used in build)
+npm run lint:check       # Lint without fixing (used in CI)
 npm run typecheck        # Run vue-tsc type check
 ```
 
@@ -93,40 +116,43 @@ npm run typecheck        # Run vue-tsc type check
 
 ```
 /
-├── app/                   ← Nuxt srcDir (Vue app — ~ alias)
-│   ├── assets/css/        ← Tailwind entry point (main.css)
+├── app/                        ← Vue SPA (~ alias)
+│   ├── assets/css/             ← Tailwind entry point (main.css)
 │   ├── components/
-│   │   ├── ui/            ← shadcn-vue components
-│   │   └── UserMenu.vue   ← Avatar dropdown (user name, role, logout)
+│   │   ├── ui/                 ← shadcn-vue components
+│   │   └── UserMenu.vue        ← Avatar dropdown (user name, role, logout)
 │   ├── composables/
-│   │   └── useAuth.ts     ← login, register, logout, GitHub OAuth
+│   │   └── useAuth.ts          ← login, register, logout, OAuth
+│   ├── i18n/index.ts           ← vue-i18n setup
 │   ├── pages/
-│   │   ├── index.vue      ← Landing page
-│   │   ├── login.vue      ← Email/password + GitHub OAuth login
-│   │   └── register.vue   ← Email/password registration
-│   ├── stores/            ← Pinia stores (settings, etc.)
-│   └── types/gql.ts       ← AUTO-GENERATED — never edit
+│   │   ├── index.vue
+│   │   ├── login.vue
+│   │   └── register.vue
+│   ├── router/index.ts         ← vue-router setup
+│   ├── stores/
+│   │   └── auth.ts             ← auth Pinia store (useAuthStore)
+│   └── types/gql.ts            ← AUTO-GENERATED — never edit
 ├── i18n/
-│   └── locales/           ← en.json, nl.json
-├── server/
+│   └── locales/                ← en.json, nl.json
+├── server/                     ← H3 server (~~ alias)
 │   ├── api/auth/
-│   │   ├── login.post.ts      ← POST /api/auth/login
-│   │   ├── register.post.ts   ← POST /api/auth/register
-│   │   └── logout.post.ts     ← POST /api/auth/logout
+│   │   ├── login.post.ts       ← POST /api/auth/login
+│   │   ├── register.post.ts    ← POST /api/auth/register
+│   │   └── logout.post.ts      ← POST /api/auth/logout
 │   ├── routes/auth/
-│   │   └── github.get.ts      ← GitHub OAuth callback (/auth/github)
-│   ├── types/auth.d.ts        ← nuxt-auth-utils User interface augmentation
+│   │   └── github.get.ts       ← GitHub OAuth callback
+│   ├── lib/session.ts          ← iron-session wrapper (getSession, requireSession)
 │   ├── graphql/
-│   │   ├── schema/        ← GraphQL type definitions
-│   │   └── resolvers/     ← Resolvers (one file per domain)
+│   │   ├── schema/             ← GraphQL type definitions
+│   │   └── resolvers/          ← Resolvers (one file per domain)
 │   └── db/
 │       ├── schema/
-│       │   └── users.ts   ← users + oauth_accounts tables
-│       └── migrations/    ← Generated by drizzle-kit
-├── schema.graphql         ← Committed SDL — keep updated via codegen:schema
-├── codegen.ts             ← Dev codegen config
-├── codegen.ci.ts          ← CI codegen config (reads schema.graphql)
-└── codegen.schema.ts      ← Regenerates schema.graphql
+│       │   └── users.ts        ← users + oauth_accounts tables
+│       └── migrations/         ← Generated by drizzle-kit
+├── schema.graphql              ← Committed SDL — keep updated via codegen:schema
+├── codegen.ts                  ← Dev codegen config
+├── codegen.ci.ts               ← CI codegen config (reads schema.graphql)
+└── codegen.schema.ts           ← Regenerates schema.graphql
 ```
 
 ## Database Schema
@@ -177,18 +203,20 @@ npm run typecheck        # Run vue-tsc type check
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and fill in the values:
+Copy `.env.example` to `.env` and fill in the values (or run `bash setup.sh`):
 
 | Variable | Description |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
-| `NUXT_SESSION_PASSWORD` | Min 32 chars — encrypts session cookies |
+| `NUXT_SESSION_PASSWORD` | Min 32 chars — encrypts session cookies (iron-session) |
 | `NUXT_OAUTH_GITHUB_CLIENT_ID` | GitHub OAuth app client ID |
 | `NUXT_OAUTH_GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret |
 | `NUXT_PUBLIC_APP_NAME` | Public app name |
-| `PORT` | Production server port (default 3333) |
+| `PORT` | H3 server port (default 3333) |
 
 ## Deployment (PM2 + Nginx)
+
+Before deploying, replace the placeholders in `ecosystem.config.cjs`, `nginx/nuxt-scaffold.conf`, and `systemd/nuxt-scaffold.service` with your actual project name, path, and Unix user — or re-run `bash setup.sh` on the server.
 
 ```bash
 # Build
@@ -197,8 +225,6 @@ npm run build
 # Start with PM2
 pm2 start ecosystem.config.cjs
 pm2 save && pm2 startup
-
-# Nginx: proxy port 3333
 ```
 
 For GitHub OAuth in production, create a separate OAuth App with your production domain as the callback URL.

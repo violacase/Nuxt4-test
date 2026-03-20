@@ -10,8 +10,10 @@ Vue 3 + Vite SPA · H3 standalone server · GraphQL Yoga (`/api/graphql`) · Dri
 - `app/` = srcDir (`~` alias). `server/` at project root (`~~` alias).
 - Components: `app/components/ui/` (shadcn-vue), `app/components/editor/` (Quill, client-only)
 - Stores: `app/stores/` · Composables: `app/composables/` · Pages: `app/pages/`
+- Router: `app/router/index.ts` (vue-router, manually configured)
+- i18n setup: `app/i18n/index.ts` · Locale files: `i18n/locales/{en,nl}.json`
 - DB: `server/db/schema/*.ts` · GQL schema: `server/graphql/schema/` · Resolvers: `server/graphql/resolvers/`
-- i18n: `i18n/locales/en.json` etc.
+- Session lib: `server/lib/session.ts` (iron-session wrapper)
 
 ## Naming
 - Components: `PascalCase.vue` · Composables: `useXxx.ts` · Stores/routes/schema/resolvers: `camelCase.ts` / `kebab-case.ts`
@@ -21,7 +23,7 @@ Vue 3 + Vite SPA · H3 standalone server · GraphQL Yoga (`/api/graphql`) · Dri
 ## Rules
 - Never use Options API — always `<script setup lang="ts">`
 - Never use `any` — use `unknown` and narrow
-- Never hardcode connection strings — use `useRuntimeConfig()`
+- Never hardcode connection strings — use `process.env` on the server; Vite auto-imports handle the client
 - Never use raw Tailwind colors (`text-blue-500`) — semantic only (`text-foreground`, `bg-card`, etc.)
 - Never create `tailwind.config.js` — Tailwind v4 is CSS-only
 - Always use `cn()` from `~/lib/utils` for class merging
@@ -35,8 +37,8 @@ Vue 3 + Vite SPA · H3 standalone server · GraphQL Yoga (`/api/graphql`) · Dri
 - i18n: always `useI18n()`, never hardcode strings. Escape `@` as `{'@'}` in locale values
 
 ## Auth
-- Session: `const { user, loggedIn } = useUserSession()`
-- Server guard: `await requireSession(event)`
+- Client: `const { user, loggedIn, isAdmin, logout } = useAuth()` — wraps `useAuthStore()`
+- Server guard: `await requireSession(event)` — from `~/lib/session`
 
 ## Colors (semantic only)
 `bg-background` · `bg-card` · `text-foreground` · `text-muted-foreground` · `border-border` · `bg-primary` / `text-primary` (action blue) · `text-primary-foreground` · `bg-accent` · `text-destructive` · `ring-ring/30`
@@ -65,4 +67,4 @@ npm run typecheck    # vue-tsc
 ```
 
 ## Env vars (never commit, keep in .env.example)
-`DATABASE_URL` · `NUXT_SESSION_PASSWORD` (min 32 chars) · `NUXT_OAUTH_GITHUB_CLIENT_ID` · `NUXT_OAUTH_GITHUB_CLIENT_SECRET`
+`DATABASE_URL` · `NUXT_SESSION_PASSWORD` (min 32 chars, read by iron-session) · `NUXT_OAUTH_GITHUB_CLIENT_ID` · `NUXT_OAUTH_GITHUB_CLIENT_SECRET` · `NUXT_PUBLIC_APP_NAME` · `PORT`
